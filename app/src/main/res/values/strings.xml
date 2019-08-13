@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Christ University</string>
+
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+    <string name="account_type">Account Type</string>
+
+    <string-array name="account_arrays">
+        <item>Account Type</item>
+        <item>Faculty</item>
+        <item>Student</item>
+    </string-array>
+
+    <string name="settings_name">LOGOUT</string>
+
+    <string name="todo">TODO</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="apdcl">APDCL</string>
+    <string name="add">ADD</string>
+    <string name="view_bill_information_of_subscribers">View bill information of subscribers</string>
+    <string name="add_bill_information_of_subscribers">Add bill information of subscribers</string>
+    <string name="view">VIEW</string>
+    <string name="update">UPDATE</string>
+    <string name="update_bill_information_of_subscribers">Update bill information of subscribers</string>
+    <string name="delete">DELETE</string>
+    <string name="delete_bill_information_of_subscribers">Delete bill information of subscribers</string>
+    <string name="calculate">CALCULATE</string>
+    <string name="calculate_the_total_amount_of_bill_of_subscribers">Calculate the total amount of bill of subscribers</string>
+    <string name="customer_number">Customer Number</string>
+    <string name="bill_number">Bill Number</string>
+    <string name="name">Name</string>
+    <string name="units_consumed">Units Consumed</string>
+    <string name="net_bill_amount_in_rupees">Net Bill Amount in Rupees</string>
+    <string name="insert">INSERT</string>
+    <string name="EXISTS">DROP TABLE IF EXISTS</string>
+    <string name="category">Category</string>
+
+
+</resources>
