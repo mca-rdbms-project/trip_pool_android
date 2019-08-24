@@ -1,17 +1,27 @@
 package com.example.christuniversity;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.os.Bundle;
-import android.view.MenuItem;
+import com.google.android.material.navigation.NavigationView;
 
-public class Homepage extends AppCompatActivity {
+public class Homepage extends AppCompatActivity implements View.OnClickListener{
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToogle;
+    private Toolbar toolbar;
+    private CardView _passenger, _driver;
+    private NavigationView _nv;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,13 +29,65 @@ public class Homepage extends AppCompatActivity {
         setContentView(R.layout.activity_homepage);
 
         mDrawerLayout=(DrawerLayout) findViewById(R.id.drawer);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToogle=new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
-    mDrawerLayout.addDrawerListener(mToogle);
-    mToogle.syncState();
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mDrawerLayout.addDrawerListener(mToogle);
+        mToogle.syncState();
 
-       /* Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
+        _passenger=(CardView) findViewById(R.id.passenger);
+        _driver=(CardView) findViewById(R.id.driver);
+
+        _passenger.setOnClickListener(this);
+        _driver.setOnClickListener(this);
+
+
+        _nv = (NavigationView)findViewById(R.id.nv);
+        _nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                Intent intent;
+                switch(id)
+                {
+                    case R.id.payment:
+                        //Toast.makeText(Homepage.this,PaymentActivity.class);
+                        intent = new Intent(Homepage.this, PaymentActivity.class);
+                        startActivity(intent);
+                        break;
+                    /*case R.id.booking:
+                        intent = new Intent(Homepage.this, BookingActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.kyc:
+                        intent = new Intent(Homepage.this, KycActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.offer:
+                        intent = new Intent(Homepage.this, OfferActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.help:
+                        intent = new Intent(Homepage.this, HelpActivity.class);
+                        startActivity(intent);
+                        break;*/
+                    case R.id.logout:
+                        intent = new Intent(Homepage.this, LogoutActivity.class);
+                        startActivity(intent);
+                        break;
+                    default:
+                        return true;
+                }
+
+
+                return true;
+
+            }
+        });
+
+
     }
 
     @Override
@@ -34,5 +96,21 @@ public class Homepage extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+
+        switch (v.getId())
+        {
+            case R.id.passenger : intent=new Intent(this,PermissionsActivity.class);
+                                    startActivity(intent);
+                                    break;
+
+            case R.id.driver : intent=new Intent(this,PermissionsActivity1.class);
+                                startActivity(intent);
+                                break;
+        }
     }
 }

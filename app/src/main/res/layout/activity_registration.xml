@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@drawable/bg_login"
     tools:context=".Registration">
 
     <androidx.core.widget.NestedScrollView
@@ -18,28 +18,33 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="359dp"
+                android:layout_height="198dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="56dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:contentDescription="logo"
+                android:src="@drawable/logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="REGISTRATION FORM"
+                android:text="SIGN UP"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:id="@+id/title_text"
                 android:gravity="center"
-                android:layout_marginTop="50dp"
-                android:textSize="25dp"
-                />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:id="@+id/display_date"
-                android:gravity="center"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="50dp"
                 android:textSize="25dp"
                 />
-
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -111,29 +116,23 @@
                     android:hint="City"
                     android:layout_marginBottom="50dp"/>
                     -->
-                <Spinner
-                    android:id="@+id/city"
-                    android:layout_width="match_parent"
-                    android:layout_height="75dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_marginTop="100dp"
+            <Spinner
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:spinnerMode="dropdown"
+                android:layout_marginBottom="35dp"
+                />
 
-                    android:spinnerMode="dropdown"/>
+            <Spinner
+                android:id="@+id/college"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:spinnerMode="dropdown"
+                android:layout_marginBottom="35dp"/>
 
             <!-- </com.google.android.material.textfield.TextInputLayout> -->
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/college"
-                    android:inputType="textPersonName"
-                    android:hint="College"
-                    android:layout_marginBottom="50dp"/>
-            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"

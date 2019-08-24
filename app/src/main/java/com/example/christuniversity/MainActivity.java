@@ -5,25 +5,28 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.christuniversity.Retrofit.INodeJs;
 import com.example.christuniversity.Retrofit.RetrofitClient;
 
-import androidx.appcompat.app.AppCompatActivity;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     INodeJs myAPI;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     EditText _username, _Password;
     Button _btn_login;
+    TextView _register;
 
     @Override
     protected void onStop() {
@@ -58,6 +61,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+
+        _register = (TextView) findViewById(R.id.register);
+
+        _register.setOnClickListener(this);
+
     }
 
     private void loginUser(final String email, final String Password) {
@@ -71,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                         if (s.contains("true")) {
                             //Toast.makeText(MainActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
 
-                            Intent int1 = new Intent(MainActivity.this, Registration.class);
+                           Intent int1 = new Intent(MainActivity.this, Homepage.class);
                             //int1.putExtra("Username", user);
                             startActivity(int1);
                             //finish();
@@ -81,6 +91,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }));
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(this,Registration.class);
+        startActivity(intent);
     }
 }
 

@@ -12,6 +12,12 @@
         <item>Student</item>
     </string-array>
 
+    <string-array name="type">
+        <item>Vehicle Type</item>
+        <item>FOUR WHEELER</item>
+        <item>TWO WHEELER</item>
+    </string-array>
+
     <string name="settings_name">LOGOUT</string>
 
     <string name="todo">TODO</string>
@@ -37,6 +43,9 @@
     <string name="insert">INSERT</string>
     <string name="EXISTS">DROP TABLE IF EXISTS</string>
     <string name="category">Category</string>
+    <string name="title_activity_map">MapActivity</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps2">Map</string>
 
 
 </resources>

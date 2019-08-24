@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapsActivity2"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/linearlayout">
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:id="@+id/etOrigin"
+            android:hint="Current Location"
+            android:background="@drawable/rounded_edittext"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_margin="15dp"
+            android:padding="10dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:hint="Where To?"
+            android:id="@+id/etDestination"
+            android:background="@drawable/rounded_edittext"
+            android:layout_margin="15dp"
+            android:padding="10dp"/>
+
+
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:background="@color/back_net_banking"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="55dp"
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        android:layout_margin="15dp">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="50dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_distance" />
+
+                <TextView
+                    android:id="@+id/tvDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="0 km" />
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_clock" />
+
+                <TextView
+                    android:id="@+id/tvDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="0 min" />
+
+            </LinearLayout>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:id="@+id/vehicle_type"
+                android:layout_margin="15dp"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_margin="15dp"
+                android:padding="10dp"
+                android:id="@+id/seats"
+                android:inputType="number"
+                android:hint="Number of Seats"
+                android:background="@drawable/rounded_edittext"/>
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_margin="15dp"
+                android:padding="10dp"
+                android:id="@+id/v_model"
+                android:hint="Vehicle Model"
+                android:background="@drawable/rounded_edittext"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_margin="15dp"
+                android:padding="10dp"
+                android:id="@+id/v_color"
+                android:hint="Vehicle Color"
+                android:background="@drawable/rounded_edittext"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_margin="15dp"
+                android:padding="10dp"
+                android:id="@+id/v_no"
+                android:inputType="number"
+                android:hint="Vehicle Number"
+                android:background="@drawable/rounded_edittext"/>
+
+            <CheckBox
+                android:id="@+id/rule1"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_margin="15dp"
+                android:layout_centerHorizontal="true"
+                android:checked="false"
+                android:text="Do not eat in the car or dirty the cab"
+                />
+
+            <CheckBox
+                android:id="@+id/rule2"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_margin="15dp"
+                android:layout_centerHorizontal="true"
+                android:checked="false"
+                android:text="Avoid being rude"
+                />
+
+            <CheckBox
+                android:id="@+id/rule3"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_margin="15dp"
+                android:layout_centerHorizontal="true"
+                android:checked="false"
+                android:text="No picking up additional customers"
+                />
+
+            <CheckBox
+                android:id="@+id/rule4"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_margin="15dp"
+                android:layout_centerHorizontal="true"
+                android:checked="false"
+                android:text="Stupidity while driving is unaccepted"
+                />
+
+            <CheckBox
+                android:id="@+id/rule5"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_margin="15dp"
+                android:layout_centerHorizontal="true"
+                android:checked="false"
+                android:text="Passenger,s drunk are not acceptable"
+                />
+
+            <Button
+                android:id="@+id/btnFindPath"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_margin="30dp"
+                android:padding="10dp"
+                android:text="POST A RIDE"
+                android:layout_gravity="center"
+                android:textColor="#FFFFFF"
+                android:background="@color/colorPrimary"/>
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

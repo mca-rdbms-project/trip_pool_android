@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.christuniversity.Retrofit.INodeJs;
 import com.example.christuniversity.Retrofit.RetrofitClient;
 
@@ -18,7 +20,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import androidx.appcompat.app.AppCompatActivity;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -27,6 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+
 import static android.R.layout.simple_spinner_item;
 
 
@@ -36,12 +38,18 @@ public class Registration extends AppCompatActivity {
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     ArrayList<SpinnerModel> goodModelArrayList;
+    ArrayList<SpinnerModel1> goodModelArrayList1;
+
     ArrayList<String> cities = new ArrayList<String>();
     Spinner spinner;
 
+    ArrayList<String> colleges = new ArrayList<String>();
+    Spinner spinner1;
+
+
     Retrofit retrofit = RetrofitClient.getInstance();
 
-    EditText _fname, _mname, _lname, _email, _mno, _city, _college, _idphoto, _usertype, _gender, _password;
+    EditText _fname, _mname, _lname, _email, _mno, _idphoto, _usertype, _gender, _password;
     Button _instbtn;
 
     @Override
@@ -72,7 +80,7 @@ public class Registration extends AppCompatActivity {
         _email = (EditText) findViewById(R.id.email);
         _mno = (EditText) findViewById(R.id.mno);
         //_city = (EditText) findViewById(R.id.city);
-        _college = (EditText) findViewById(R.id.college);
+        //_college = (EditText) findViewById(R.id.college);
         _idphoto = (EditText) findViewById(R.id.id_photo);
         _usertype = (EditText) findViewById(R.id.user_type);
         _gender = (EditText) findViewById(R.id.gender);
@@ -80,6 +88,16 @@ public class Registration extends AppCompatActivity {
 
         spinner = findViewById(R.id.city);
         fetchJSON();
+
+        /*spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                cityid(city_id.getText.toString());
+            }
+        });*/
+
+        spinner1 = findViewById(R.id.college);
+        //fetchJSON1();
 
         _instbtn = (Button) findViewById(R.id.instbtn);
 
@@ -91,8 +109,8 @@ public class Registration extends AppCompatActivity {
                         _lname.getText().toString(),
                         _email.getText().toString(),
                         _mno.getText().toString(),
-                        _city.getText().toString(),
-                        _college.getText().toString(),
+                        spinner.getSelectedItem().toString(),
+                        spinner1.getSelectedItem().toString(),
                         _idphoto.getText().toString(),
                         _usertype.getText().toString(),
                         _gender.getText().toString(),
@@ -102,6 +120,7 @@ public class Registration extends AppCompatActivity {
         });
     }
 
+    //spinner population for city
     private void fetchJSON(){
 
         //Retrofit retrofit = RetrofitClient.getInstance();
@@ -137,6 +156,20 @@ public class Registration extends AppCompatActivity {
         });
     }
 
+    /*public void cityid(final String city_id)
+    {
+        compositeDisposable.add(myAPI.cityid(city_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        Toast.makeText(Registration.this, "College is fetched"+s, Toast.LENGTH_SHORT).show();
+
+                    }
+                }));
+    }
+*/
     private void spinJSON(String response){
 
         try {
@@ -145,15 +178,15 @@ public class Registration extends AppCompatActivity {
             if(obj.optString("status").equals("true")){
 
                 goodModelArrayList = new ArrayList<>();
-                JSONArray dataArray  = obj.getJSONArray("data");
+                JSONArray dataArray  = obj.getJSONArray("list");
 
                 for (int i = 0; i < dataArray.length(); i++) {
 
                     SpinnerModel spinnerModel = new SpinnerModel();
                     JSONObject dataobj = dataArray.getJSONObject(i);
 
+                    spinnerModel.setCityid(dataobj.getString("city_id"));
                     spinnerModel.setCity(dataobj.getString("city_name"));
-                    // spinnerModel.setCityid(dataobj.getString("city_id"));
 
                     goodModelArrayList.add(spinnerModel);
 
@@ -175,6 +208,81 @@ public class Registration extends AppCompatActivity {
 
     }
 
+    //spinner population for college
+    /*private void fetchJSON1(){
+
+        //Retrofit retrofit = RetrofitClient.getInstance();
+        myAPI = retrofit.create(INodeJs.class);
+        //SpinnerInterface api = retrofit.create(SpinnerInterface.class);
+
+        Call<String> call = myAPI.getJSONString1();
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.i("Responsestring", response.body().toString());
+                //Toast.makeText()
+                //Log.d(response.body().toString());
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        Log.i("onSuccess", response.body().toString());
+
+                        String jsonresponse1 = response.body().toString();
+                        spinJSON1(jsonresponse1);
+
+
+                    } else {
+                        Log.i("onEmptyResponse", "Returned empty response");//Toast.makeText(getContext(),"Nothing returned",Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void spinJSON1(String response){
+
+        try {
+
+            JSONObject obj1 = new JSONObject(response);
+            if(obj1.optString("status").equals("true")){
+
+                goodModelArrayList1 = new ArrayList<>();
+                JSONArray dataArray1  = obj1.getJSONArray("list1");
+
+                for (int i = 0; i < dataArray1.length(); i++) {
+
+                    SpinnerModel1 spinnerModel1 = new SpinnerModel1();
+                    JSONObject dataobj1 = dataArray1.getJSONObject(i);
+
+                    spinnerModel1.setCollegeid(dataobj1.getString("college_id"));
+                    spinnerModel1.setCollege(dataobj1.getString("college_name"));
+
+                    goodModelArrayList1.add(spinnerModel1);
+
+                }
+
+                for (int i = 0; i < goodModelArrayList1.size(); i++){
+                    colleges.add(goodModelArrayList1.get(i).getCollege());
+                }
+
+                ArrayAdapter<String> spinnerArrayAdapter1 = new ArrayAdapter<String>(Registration.this, simple_spinner_item, colleges);
+                spinnerArrayAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+                spinner1.setAdapter(spinnerArrayAdapter1);
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+*/
     private void registerUser(final String f_name, final String m_name, final String l_name, final String email, final String mno, final String city, final String college, final String id_photo, final String user_type, final String gender, final String password) {
 
        /* new MaterialStyledDialog.Builder(this)
