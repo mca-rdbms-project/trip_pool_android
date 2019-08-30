@@ -25,7 +25,7 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-
+    private Session session;
     INodeJs myAPI;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -120,9 +120,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             //Toast.makeText(MainActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
                             mProgress.dismiss();
+                            //global variable
+                            session = new Session(MainActivity.this); //in oncreate
+//and now we set sharedpreference then use this like
 
-                            Session user=new Session(MainActivity.this);
-                            user.createLoginSession(obj1.optString("user_id"));
+                            session.setusename(obj1.optString("user_id"));
                             Intent int1 = new Intent(MainActivity.this, Homepage.class);
                             //obj1.optString("user_id");
                             //obj1.putOpt("user_id", obj1);

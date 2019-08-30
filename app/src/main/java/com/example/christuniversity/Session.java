@@ -1,10 +1,30 @@
 package com.example.christuniversity;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 
-import java.util.HashMap;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+public class Session {
+
+    private SharedPreferences prefs;
+
+    public Session(Context cntx) {
+        // TODO Auto-generated constructor stub
+        prefs = PreferenceManager.getDefaultSharedPreferences(cntx);
+    }
+
+    public void setusename(String usename) {
+        prefs.edit().putString("userid", usename).commit();
+    }
+
+    public String getuserid() {
+        String userid = prefs.getString("userid","");
+        return userid;
+    }
+}
+/*
+
 
 public class Session {
     // Shared Preferences
@@ -38,9 +58,11 @@ public class Session {
         editor = pref.edit();
     }
 
-    /**
+    */
+/**
      * Create login session
-     * */
+     * *//*
+
     public void createLoginSession(String id){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
@@ -55,11 +77,13 @@ public class Session {
 
     }
 
-    /**
+    */
+/**
      * Check login method wil check user login status
      * If false it will redirect user to login page
      * Else won't do anything
-     * */
+     * *//*
+
     public boolean checkLogin(){
         // Check login status
         if(!this.isLoggedIn()){
@@ -81,9 +105,11 @@ public class Session {
 
 
 
-    /**
+    */
+/**
      * Get stored session data
-     * */
+     * *//*
+
     public HashMap<String, String> getUserDetails(){
         HashMap<String, String> user = new HashMap<String, String>();
         // user name
@@ -96,9 +122,11 @@ public class Session {
         return user;
     }
 
-    /**
+    */
+/**
      * Clear session details
-     * */
+     * *//*
+
     public void logoutUser(){
         // Clearing all data from Shared Preferences
         editor.clear();
@@ -116,11 +144,13 @@ public class Session {
         _context.startActivity(i);
     }
 
-    /**
+    */
+/**
      * Quick check for login
-     * **/
+     * **//*
+
     // Get Login State
     public boolean isLoggedIn(){
         return pref.getBoolean(IS_LOGIN, false);
     }
-}
+}*/

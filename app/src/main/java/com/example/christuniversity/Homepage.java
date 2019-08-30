@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -23,19 +24,30 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
     private NavigationView _nv;
 
 
+    private Session session;//global variable
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
 
+        session = new Session(Homepage.this);
+
         mDrawerLayout=(DrawerLayout) findViewById(R.id.drawer);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        TextView userid = (TextView) findViewById(R.id.userid);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToogle=new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
         mDrawerLayout.addDrawerListener(mToogle);
         mToogle.syncState();
+
+        String uid = session.getuserid();
+        userid.setText(uid);
+
+
 
 
 
