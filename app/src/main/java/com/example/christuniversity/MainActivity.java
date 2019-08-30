@@ -16,6 +16,8 @@ import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.example.christuniversity.Retrofit.INodeJs;
 import com.example.christuniversity.Retrofit.RetrofitClient;
 
+import org.json.JSONObject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -106,18 +108,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mProgress.show();
 
 
+
         compositeDisposable.add(myAPI.loginUser(email, Password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        if (s.contains("true")) {
+                        JSONObject obj1 = new JSONObject(s);
+                        if (obj1.optString("status").equals("true")) {
 
                             //Toast.makeText(MainActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
                             mProgress.dismiss();
+
+                            Session user=new Session(MainActivity.this);
+                            user.createLoginSession(obj1.optString("user_id"));
                             Intent int1 = new Intent(MainActivity.this, Homepage.class);
-                            //int1.putExtra("Username", user);
+                            //obj1.optString("user_id");
+                            //obj1.putOpt("user_id", obj1);
                             startActivity(int1);
                             //finish();
                         }
