@@ -37,6 +37,8 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
         mDrawerLayout.addDrawerListener(mToogle);
         mToogle.syncState();
 
+
+
         _passenger=(CardView) findViewById(R.id.passenger);
         _driver=(CardView) findViewById(R.id.driver);
 

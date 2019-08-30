@@ -18,6 +18,19 @@
         <item>TWO WHEELER</item>
     </string-array>
 
+    <string-array name="user">
+        <item>User Type</item>
+        <item>Student</item>
+        <item>Faculty</item>
+    </string-array>
+
+    <string-array name="gender">
+        <item>Gender Type</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+
     <string name="settings_name">LOGOUT</string>
 
     <string name="todo">TODO</string>
@@ -47,5 +60,16 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_maps2">Map</string>
 
+
+    <string name="nameerror">Enter a Valid Name</string>
+    <string name="emailerror">Enter a Valid Email</string>
+    <string name="mobileerror">Enter a Valid Mobile Number</string>
+    <string name="modelerror">Enter a Valid Vehicle model</string>
+    <string name="colorerror">Enter a Valid Vehicle Colour</string>
+    <string name="vnoerror">Enter a Valid Vehicle Number</string>
+    <string name="seaterror">Enter a Valid Seat Number</string>
+    <!--<string name="dateerror">Enter a valid date</string>
+    <string name="ageerror">Enter a valid age</string>
+-->
 
 </resources>

@@ -96,21 +96,6 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <!-- <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/et_bg"
-        android:entries="@array/account_arrays"
-        android:padding="10dp"
-        android:prompt="@string/account_type"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/etPasswordLayout"
-        /> -->
-
     <Button
         android:id="@+id/btn_login"
         android:layout_width="0dp"

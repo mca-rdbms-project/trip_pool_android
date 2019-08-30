@@ -1,5 +1,6 @@
 package com.example.christuniversity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.example.christuniversity.Retrofit.INodeJs;
 import com.example.christuniversity.Retrofit.RetrofitClient;
 
@@ -27,6 +30,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText _username, _Password;
     Button _btn_login;
     TextView _register;
+
+    private AwesomeValidation awesomeValidation;
+    private ProgressDialog mProgress;
+
+    private static final int REQUEST_SIGNUP = 0;
 
     @Override
     protected void onStop() {
@@ -48,20 +56,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Retrofit retrofit = RetrofitClient.getInstance();
         myAPI = retrofit.create(INodeJs.class);
 
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+
         _username = (EditText) findViewById(R.id.username);
         _Password = (EditText) findViewById(R.id.Password);
 
         _btn_login = (Button) findViewById(R.id.btn_login);
 
+
+
+
+        //awesomeValidation.addValidation(this, R.id.username, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.nameerror);
+        //awesomeValidation.addValidation(this, R.id.Password, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.nameerror);
+
+
+
         _btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginUser(_username.getText().toString(),
-                        _Password.getText().toString());
+
+                if (awesomeValidation.validate()) {
+                    loginUser(_username.getText().toString(),
+                            _Password.getText().toString());
+                }
+
+
+                //mProgress.show();
 
             }
         });
-
 
 
         _register = (TextView) findViewById(R.id.register);
@@ -72,6 +95,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void loginUser(final String email, final String Password) {
 
+        //_btn_login.setEnabled(false);
+
+        mProgress = new ProgressDialog(MainActivity.this,
+                R.style.AppTheme_Dark_Dialog);
+        mProgress.setIndeterminate(true);
+        //mProgress.setTitle("Processing...");
+        mProgress.setMessage("Authenticating");
+        //mProgress.setCancelable(false);
+        mProgress.show();
+
+
         compositeDisposable.add(myAPI.loginUser(email, Password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -79,15 +113,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void accept(String s) throws Exception {
                         if (s.contains("true")) {
-                            //Toast.makeText(MainActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
 
-                           Intent int1 = new Intent(MainActivity.this, Homepage.class);
+                            //Toast.makeText(MainActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                            mProgress.dismiss();
+                            Intent int1 = new Intent(MainActivity.this, Homepage.class);
                             //int1.putExtra("Username", user);
                             startActivity(int1);
                             //finish();
                         }
                         else
-                            Toast.makeText(MainActivity.this, "not successful"+s, Toast.LENGTH_SHORT).show();
+                            mProgress.dismiss();
+                        Toast.makeText(MainActivity.this, "successful"+s, Toast.LENGTH_SHORT).show();
                     }
                 }));
 
@@ -95,8 +131,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this,Registration.class);
-        startActivity(intent);
+        Intent intent = new Intent(getApplicationContext(), Registration.class);
+        startActivityForResult(intent, REQUEST_SIGNUP);
+        finish();
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 }
 
@@ -115,5 +153,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         );
         spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
         spinner.setAdapter(spinnerArrayAdapter);*/
-   // }
+// }
 

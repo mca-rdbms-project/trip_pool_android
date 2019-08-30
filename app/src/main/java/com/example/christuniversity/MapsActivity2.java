@@ -9,11 +9,8 @@ import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,9 +45,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,12 +72,9 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
     private Location mLastKnownLocation;
     private LocationCallback locationCallback;
     private final float DEFAULT_ZOOM = 15;
-    private PlacesClient placesClient;
-    private Spinner _vehicle_type;
     private String v_type;
-    private CheckBox _rule1, _rule2, _rule3, _rule4, _rule5;
-    private EditText _v_model, _v_color, _v_no, _seats;
-    private String r1, r2, r3, r4, r5;
+    private String dateString,timeString;
+    TextView _display_date, _display_time;
 
     INodeJs myAPI;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -98,29 +92,44 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
 
         myAPI = retrofit.create(INodeJs.class);
 
-        _v_model = (EditText) findViewById(R.id.v_model);
-        _v_color = (EditText) findViewById(R.id.v_color);
-        _v_no = (EditText) findViewById(R.id.v_no);
-        _seats = (EditText) findViewById(R.id.seats);
-        _rule1 = (CheckBox) findViewById(R.id.rule1);
-        _rule2 = (CheckBox) findViewById(R.id.rule2);
-        _rule3 = (CheckBox) findViewById(R.id.rule3);
-        _rule4 = (CheckBox) findViewById(R.id.rule4);
-        _rule5 = (CheckBox) findViewById(R.id.rule5);
-        //LinearLayout ll = (LinearLayout) findViewById(R.id.linearlayout);
-        //ll.setAlpha((float) 0.4);
+        Thread thread = new Thread()
+        {
+            @Override
+            public  void run(){
+                try{
+                    while (!isInterrupted()){
+                        Thread.sleep(1000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                _display_date = (TextView) findViewById(R.id.tdate);
+                                long date = System.currentTimeMillis();
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                dateString = sdf.format(date);
+                                _display_date.setAlpha(0.0f);
+
+                                _display_time = (TextView) findViewById(R.id.ttime);
+                                SimpleDateFormat stf = new SimpleDateFormat("hh:mm a");
+                                timeString = stf.format(date);
+                                _display_time.setAlpha(0.0f);
+
+
+                            }
+                        });
+                    }
+                }
+                catch (InterruptedException e){
+
+                }
+            }
+        };
+        thread.start();
 
 
         btnFindPath = (Button) findViewById(R.id.btnFindPath);
         etOrigin = (EditText) findViewById(R.id.etOrigin);
         etDestination = (EditText) findViewById(R.id.etDestination);
 
-        _vehicle_type = (Spinner) findViewById(R.id.vehicle_type);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.type, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        _vehicle_type.setAdapter(adapter);
-        _vehicle_type.setOnItemSelectedListener(this);
 
 
         btnFindPath.setOnClickListener(new View.OnClickListener() {
@@ -128,38 +137,18 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
             public void onClick(View v) {
                 sendRequest();
 
-                if (_rule1.isChecked()) {
-                    r1 = _rule1.getText().toString();
-                }
-                if (_rule2.isChecked()) {
-                    r2 = _rule2.getText().toString();
-                }
-                if (_rule3.isChecked()) {
-                    r3 = _rule3.getText().toString();
-                }
-                if (_rule4.isChecked()) {
-                    r4 = _rule4.getText().toString();
-                }
-                if (_rule5.isChecked()) {
-                    r5 = _rule5.getText().toString();
-                }
+                passengerinfo(dateString, timeString,
+                        etOrigin.getText().toString(),
+                        etDestination.getText().toString());
 
-                driverinfo(etOrigin.getText().toString(),
-                        etDestination.getText().toString(),
-                        _vehicle_type.getSelectedItem().toString(),
-                        _seats.getText().toString(),
-                        _v_model.getText().toString(),
-                        _v_color.getText().toString(),
-                        _v_no.getText().toString(),
-                        r1, r2, r3, r4, r5);
+                Intent intent = new Intent(MapsActivity2.this, Passenger_ride_list.class);
+                startActivity(intent);
             }
         });
 
         mapView = mapFragment.getView();
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MapsActivity2.this);
-        //Places.initialize(MapsActivity.this, "AIzaSyBSjMmeNnPp00VQhtalS1czrRCYf2ATYLg");
-        //placesClient = Places.createClient(this);
 
     }
 
@@ -173,23 +162,9 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
 
     }
 
-    private void driverinfo(final String etOrigin, final String etDestination, final String vehicle_type, final String seats, final String v_model, final String v_color, final String v_no, final String r1, final String r2, final String r3, final String r4, final String r5) {
+    private void passengerinfo(final String ddate, final String ttime, final String etOrigin, final String etDestination) {
 
-       /* new MaterialStyledDialog.Builder(this)
-                .setTitle("Register")
-                .setDescription("One more step")
-                .setNegativeText("Cancel")
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                })
-                .setPositiveText("Register")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {*/
-        compositeDisposable.add(myAPI.driverinfo(etOrigin, etDestination, vehicle_type, seats, v_model, v_color, v_no, r1, r2, r3, r4, r5)
+        compositeDisposable.add(myAPI.passengerinfo(ddate, ttime, etOrigin, etDestination)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
@@ -229,14 +204,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-        /*if (mapView != null && mapView.findViewById(Integer.parseInt("1")) != null) {
-            View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-            layoutParams.setMargins(0, 0, 40, 180);
-        }
-*/
+
         //check if gps is enabled or not and then request user to enable it
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setInterval(10000);
@@ -268,20 +236,6 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
                 }
             }
         });
-
-
-
-
-        /*mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-            @Override
-            public boolean onMyLocationButtonClick() {
-                if (etOrigin.isSuggestionsVisible())
-                    etOrigin.clearSuggestions();
-                if (etOrigin.isSearchEnabled())
-                    etOrigin.disableSearch();
-                return false;
-            }
-        });*/
 
 
     }

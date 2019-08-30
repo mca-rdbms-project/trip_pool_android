@@ -203,6 +203,23 @@
                 android:text="Passenger,s drunk are not acceptable"
                 />
 
+            <TextView
+                android:id="@+id/tdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textSize="30sp"
+                android:layout_marginBottom="36dp"/>
+
+            <TextView
+                android:id="@+id/ttime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textSize="30sp"
+                android:layout_marginBottom="36dp"/>
+
+
             <Button
                 android:id="@+id/btnFindPath"
                 android:layout_width="wrap_content"

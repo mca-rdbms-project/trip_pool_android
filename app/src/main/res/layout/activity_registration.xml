@@ -129,12 +129,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:spinnerMode="dropdown"
-                android:layout_marginBottom="35dp"/>
+                android:layout_marginBottom="35dp" />
 
             <!-- </com.google.android.material.textfield.TextInputLayout> -->
 
 
-            <com.google.android.material.textfield.TextInputLayout
+            <!--<com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <EditText
@@ -145,30 +145,39 @@
                     android:hint="College Id Photo"
                     android:layout_marginBottom="50dp"/>
             </com.google.android.material.textfield.TextInputLayout>
+-->
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/user_type"
-                    android:inputType="textPersonName"
-                    android:hint="Type of user"
-                    android:layout_marginBottom="50dp"/>
-            </com.google.android.material.textfield.TextInputLayout>
+            <!--<ImageView
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:id="@+id/photo"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp" />
+-->
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/capture_image_btn"
+                android:text="TAKE PHOTO"
+                android:background="@color/colorPrimary"
+                android:layout_marginBottom="20dp"
+                android:textColor="#fcfcfc"/>
 
-            <com.google.android.material.textfield.TextInputLayout
+            <Spinner
+                android:id="@+id/usertype"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/gender"
-                    android:inputType="textCapCharacters"
-                    android:hint="Gender"
-                    android:layout_marginBottom="50dp"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="50dp"
+                android:spinnerMode="dropdown"
+                android:layout_marginBottom="35dp" />
+
+            <Spinner
+                android:id="@+id/gender"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:spinnerMode="dropdown"
+                android:layout_marginBottom="35dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"

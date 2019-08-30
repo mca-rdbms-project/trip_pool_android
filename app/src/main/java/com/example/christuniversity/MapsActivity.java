@@ -20,6 +20,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.example.christuniversity.Modules.DirectionFinder;
 import com.example.christuniversity.Modules.DirectionFinderListener;
 import com.example.christuniversity.Modules.Route;
@@ -49,8 +51,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.common.collect.Range;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,13 +84,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String v_type;
     private CheckBox _rule1,_rule2,_rule3,_rule4,_rule5;
     private EditText _v_model,_v_color,_v_no,_seats;
-    private String r1,r2,r3,r4,r5;
+    private String r1,r2,r3,r4,r5,dateString,timeString;
+    TextView _display_date, _display_time;
+
+    private AwesomeValidation awesomeValidation;
 
     INodeJs myAPI;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     Retrofit retrofit = RetrofitClient.getInstance();
-    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +105,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         myAPI = retrofit.create(INodeJs.class);
+
+
+        Thread thread = new Thread()
+        {
+            @Override
+            public  void run(){
+                try{
+                    while (!isInterrupted()){
+                        Thread.sleep(1000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                _display_date = (TextView) findViewById(R.id.tdate);
+                                long date = System.currentTimeMillis();
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                dateString = sdf.format(date);
+                                //_display_date.setText(dateString);
+                                _display_date.setAlpha(0.0f);
+
+                                _display_time = (TextView) findViewById(R.id.ttime);
+                                SimpleDateFormat stf = new SimpleDateFormat("hh:mm a");
+                                timeString = stf.format(date);
+                                //_display_time.setText(timeString);
+                                _display_time.setAlpha(0.0f);
+
+
+                            }
+                        });
+                    }
+                }
+                catch (InterruptedException e){
+
+                }
+            }
+        };
+        thread.start();
+
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
         _v_model = (EditText) findViewById(R.id.v_model);
         _v_color = (EditText) findViewById(R.id.v_color);
@@ -125,6 +170,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
+        awesomeValidation.addValidation(this, R.id.v_model, "", R.string.modelerror);
+        awesomeValidation.addValidation(this, R.id.v_color, "", R.string.colorerror);
+        awesomeValidation.addValidation(this, R.id.v_no, "^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$", R.string.vnoerror);
+        awesomeValidation.addValidation(this, R.id.seats, Range.closed(1, 6), R.string.seaterror);
+
+
 
 
         btnFindPath.setOnClickListener(new View.OnClickListener() {
@@ -132,36 +183,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onClick(View v) {
                 sendRequest();
 
-                if(_rule1.isChecked())
-                {
-                    r1=_rule1.getText().toString();
+                if (_rule1.isChecked()) {
+                    r1 = _rule1.getText().toString();
                 }
-                if(_rule2.isChecked())
-                {
-                    r2=_rule2.getText().toString();
+                if (_rule2.isChecked()) {
+                    r2 = _rule2.getText().toString();
                 }
-                if(_rule3.isChecked())
-                {
-                    r3=_rule3.getText().toString();
+                if (_rule3.isChecked()) {
+                    r3 = _rule3.getText().toString();
                 }
-                if(_rule4.isChecked())
-                {
-                    r4=_rule4.getText().toString();
+                if (_rule4.isChecked()) {
+                    r4 = _rule4.getText().toString();
                 }
-                if(_rule5.isChecked())
-                {
-                    r5=_rule5.getText().toString();
+                if (_rule5.isChecked()) {
+                    r5 = _rule5.getText().toString();
                 }
 
-                driverinfo(etOrigin.getText().toString(),
-                        etDestination.getText().toString(),
-                        _vehicle_type.getSelectedItem().toString(),
-                        _seats.getText().toString(),
-                        _v_model.getText().toString(),
-                        _v_color.getText().toString(),
-                        _v_no.getText().toString(),
-                        r1,r2,r3,r4,r5);
-            }
+                /*if (awesomeValidation.validate()) {
+                    if (_vehicle_type.getSelectedItem().toString().trim().equals("Vehicle Type"))
+                    {
+                        Toast.makeText(MapsActivity.this, "Please Select a Vehicle Type", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                */        driverinfo(dateString, timeString,
+                                etOrigin.getText().toString(),
+                                etDestination.getText().toString(),
+                                _vehicle_type.getSelectedItem().toString(),
+                                _seats.getText().toString(),
+                                _v_model.getText().toString(),
+                                _v_color.getText().toString(),
+                                _v_no.getText().toString(),
+                                r1, r2, r3, r4, r5);
+                    }
+                //}
+            //}
         });
 
         mapView = mapFragment.getView();
@@ -182,7 +237,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    private void driverinfo(final String etOrigin, final String etDestination, final String vehicle_type, final String seats, final String v_model, final String v_color, final String v_no, final String r1, final String r2, final String r3, final String r4, final String r5) {
+    private void driverinfo(final String ddate, final String ttime, final String etOrigin, final String etDestination, final String vehicle_type, final String seats, final String v_model, final String v_color, final String v_no, final String r1, final String r2, final String r3, final String r4, final String r5) {
 
        /* new MaterialStyledDialog.Builder(this)
                 .setTitle("Register")
@@ -198,7 +253,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {*/
-        compositeDisposable.add(myAPI.driverinfo(etOrigin, etDestination, vehicle_type, seats, v_model, v_color, v_no, r1, r2, r3, r4, r5)
+        compositeDisposable.add(myAPI.driverinfo(ddate, ttime, etOrigin, etDestination, vehicle_type, seats, v_model, v_color, v_no, r1, r2, r3, r4, r5)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
