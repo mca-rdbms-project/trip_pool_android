@@ -22,12 +22,12 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
-import com.example.christuniversity.Modules.DirectionFinder;
 import com.example.christuniversity.Modules.DirectionFinderListener;
 import com.example.christuniversity.Modules.Route;
 import com.example.christuniversity.Retrofit.INodeJs;
 import com.example.christuniversity.Retrofit.RetrofitClient;
 import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -50,12 +50,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.common.collect.Range;
 
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -68,8 +73,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private Button btnFindPath;
-    private EditText etOrigin;
-    private EditText etDestination;
+    //private EditText etOrigin;
+
+    private AutocompleteSupportFragment etOrigin, etDestination;
+    private EditText etDest;
     private List<Marker> originMarkers = new ArrayList<>();
     private List<Marker> destinationMarkers = new ArrayList<>();
     private List<Polyline> polylinePaths = new ArrayList<>();
@@ -79,13 +86,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Location mLastKnownLocation;
     private LocationCallback locationCallback;
     private final float DEFAULT_ZOOM = 15;
-    private PlacesClient placesClient;
+    //private PlacesClient placesClient;
     private Spinner _vehicle_type;
     private String v_type;
     private CheckBox _rule1,_rule2,_rule3,_rule4,_rule5;
     private EditText _v_model,_v_color,_v_no,_seats;
-    private String r1,r2,r3,r4,r5,dateString,timeString;
+    private String r1;
+    private String r2;
+    private String r3;
+    private String r4;
+    private String r5;
+    private String dateString;
+    private String timeString;
+    private HashMap<String, String> uid;
+    private String uid1;
+    private String origin1;
+    private String destination1;
     TextView _display_date, _display_time;
+    private Session session;
+    PlacesClient placesClient;
 
     private AwesomeValidation awesomeValidation;
 
@@ -99,10 +118,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        Places.initialize(getApplicationContext(), "AIzaSyBSjMmeNnPp00VQhtalS1czrRCYf2ATYLg");
+
+        placesClient = Places.createClient(this);
+
+        session = new Session(MapsActivity.this);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        uid = session.getUserDetails();
+        uid1=uid.toString();
 
         myAPI = retrofit.create(INodeJs.class);
 
@@ -122,13 +151,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                                 dateString = sdf.format(date);
                                 //_display_date.setText(dateString);
-                                _display_date.setAlpha(0.0f);
+                                //_display_date.setAlpha(0.0f);
 
                                 _display_time = (TextView) findViewById(R.id.ttime);
                                 SimpleDateFormat stf = new SimpleDateFormat("hh:mm a");
                                 timeString = stf.format(date);
                                 //_display_time.setText(timeString);
-                                _display_time.setAlpha(0.0f);
+                                //_display_time.setAlpha(0.0f);
 
 
                             }
@@ -158,8 +187,71 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         btnFindPath = (Button) findViewById(R.id.btnFindPath);
-        etOrigin = (EditText) findViewById(R.id.etOrigin);
+        /*etOrigin = (EditText) findViewById(R.id.etOrigin);
         etDestination = (EditText) findViewById(R.id.etDestination);
+*/
+        //origin1=etOrigin.toString();
+        //destination1=etDestination.toString();
+
+        //etOrigin = findFragmentById(R.id.etOrigin) as AutocompleteSupportFragment;
+
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), "AIzaSyBSjMmeNnPp00VQhtalS1czrRCYf2ATYLg");
+        }
+
+
+        // Initialize the AutocompleteSupportFragment.
+
+        etOrigin = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.etOrigin);
+
+
+        etOrigin.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS));
+
+
+        etOrigin.setOnPlaceSelectedListener(new com.google.android.libraries.places.widget.listener.PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                origin1=place.getAddress();
+                //etDest.setText(origin1);
+            }
+
+            @Override
+            public void onError(@NonNull Status status) {
+
+            }
+        });
+
+
+        etDestination = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.etDestination);
+
+        etDestination.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS));
+
+        etDestination.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                destination1=place.getAddress();
+            }
+
+            @Override
+            public void onError(@NonNull Status status) {
+
+            }
+        });
+
+        /*etOrigin= (PlaceAutocompleteFragment)getFragmentManager().findFragmentById(R.id.etOrigin);
+        etOrigin.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                origin1 = place.getAddress().toString();
+            }
+
+            @Override
+            public void onError(Status status) {
+                Toast.makeText(MapsActivity.this,""+status.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });*/
 
         _vehicle_type =(Spinner) findViewById(R.id.vehicle_type);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -170,18 +262,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-        awesomeValidation.addValidation(this, R.id.v_model, "", R.string.modelerror);
-        awesomeValidation.addValidation(this, R.id.v_color, "", R.string.colorerror);
+        awesomeValidation.addValidation(this, R.id.v_model, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.modelerror);
+        awesomeValidation.addValidation(this, R.id.v_color, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.colorerror);
         awesomeValidation.addValidation(this, R.id.v_no, "^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$", R.string.vnoerror);
         awesomeValidation.addValidation(this, R.id.seats, Range.closed(1, 6), R.string.seaterror);
-
 
 
 
         btnFindPath.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendRequest();
+
+                //sendRequest();
+
 
                 if (_rule1.isChecked()) {
                     r1 = _rule1.getText().toString();
@@ -199,24 +292,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     r5 = _rule5.getText().toString();
                 }
 
-                /*if (awesomeValidation.validate()) {
+                if (awesomeValidation.validate()) {
                     if (_vehicle_type.getSelectedItem().toString().trim().equals("Vehicle Type"))
                     {
                         Toast.makeText(MapsActivity.this, "Please Select a Vehicle Type", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                */        driverinfo(dateString, timeString,
-                                etOrigin.getText().toString(),
-                                etDestination.getText().toString(),
+                        driverinfo(dateString, timeString,
+                                //etOrigin.,
+                                //etDestination.getText().toString(),
+                                origin1,destination1,
                                 _vehicle_type.getSelectedItem().toString(),
                                 _seats.getText().toString(),
                                 _v_model.getText().toString(),
                                 _v_color.getText().toString(),
                                 _v_no.getText().toString(),
-                                r1, r2, r3, r4, r5);
+                                uid1,r1, r2, r3, r4, r5);
                     }
-                //}
-            //}
+                }
+            }
         });
 
         mapView = mapFragment.getView();
@@ -237,23 +331,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    private void driverinfo(final String ddate, final String ttime, final String etOrigin, final String etDestination, final String vehicle_type, final String seats, final String v_model, final String v_color, final String v_no, final String r1, final String r2, final String r3, final String r4, final String r5) {
+    private void driverinfo(final String ddate, final String ttime, final String etOrigin, final String etDestination, final String vehicle_type, final String seats, final String v_model, final String v_color, final String v_no, final String user_id, final String r1, final String r2, final String r3, final String r4, final String r5) {
 
-       /* new MaterialStyledDialog.Builder(this)
-                .setTitle("Register")
-                .setDescription("One more step")
-                .setNegativeText("Cancel")
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                })
-                .setPositiveText("Register")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {*/
-        compositeDisposable.add(myAPI.driverinfo(ddate, ttime, etOrigin, etDestination, vehicle_type, seats, v_model, v_color, v_no, r1, r2, r3, r4, r5)
+        compositeDisposable.add(myAPI.driverinfo(ddate, ttime, etOrigin, etDestination, vehicle_type, seats, v_model, v_color, v_no, user_id, r1, r2, r3, r4, r5)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
@@ -266,25 +346,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    private void sendRequest() {
-        String origin = etOrigin.getText().toString();
-        String destination = etDestination.getText().toString();
-        if (origin.isEmpty()) {
+    /*private void sendRequest() {
+
+*//*
+        if (origin1.isEmpty()) {
             Toast.makeText(this, "Please enter origin address!", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (destination.isEmpty()) {
+        if (destination1.isEmpty()) {
             Toast.makeText(this, "Please enter destination address!", Toast.LENGTH_SHORT).show();
             return;
         }
+*//*
 
         try {
-            new DirectionFinder(this, origin, destination).execute();
+            new DirectionFinder(this, origin1, destination1).execute();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
-
+*/
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -419,7 +500,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-   @SuppressLint("MissingPermission")
+    @SuppressLint("MissingPermission")
     private void getDeviceLocation() {
         mFusedLocationProviderClient.getLastLocation()
                 .addOnCompleteListener(new OnCompleteListener<Location>() {

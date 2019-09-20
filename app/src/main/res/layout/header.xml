@@ -1,22 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="160dp"
-    android:background="@drawable/pooling"
-    android:padding="20dp">
-    
-    <ImageView
-        android:src="@drawable/ic_eye"
-        android:layout_width="75dp"
-        android:layout_height="75dp" />
+<?xml version="1.0" encoding="UTF-8"?>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="saurav"
-        android:textColor="#fff"
-        android:textStyle="bold"
-        android:layout_marginTop="5dp"/>
+    <LinearLayout android:padding="20dp" android:background="@drawable/pooling" android:layout_height="160dp" android:layout_width="match_parent" android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView android:layout_height="75dp" android:layout_width="75dp" android:src="@drawable/ic_eye"/>
+
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginTop="5dp" android:textStyle="bold" android:textColor="#fff" android:text="saurav"/>
 
 </LinearLayout>

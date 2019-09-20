@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_login"
+    android:background="@drawable/logbg"
     tools:context=".Registration">
 
     <androidx.core.widget.NestedScrollView
@@ -44,64 +44,76 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="50dp"
                 android:textSize="25dp"
-                />
+                android:textColor="#fcfcfc" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:theme="@style/TextLabel"
+                >
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/f_name"
                     android:inputType="textPersonName"
                     android:hint="First Name"
-                    android:layout_marginBottom="20dp"/>
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="20dp"
+                    />
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:theme="@style/TextLabel">
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/m_name"
                     android:inputType="textPersonName"
                     android:hint="Middle Name (if any)"
-                    android:layout_marginBottom="35dp"/>
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="35dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:theme="@style/TextLabel">
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/l_name"
                     android:inputType="textPersonName"
+                    android:textColor="@color/white"
                     android:hint="Last name"
-                    android:layout_marginBottom="20dp"/>
+                    android:layout_marginBottom="20dp" />
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:theme="@style/TextLabel">
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/email"
                     android:inputType="textEmailAddress"
                     android:hint="Email"
-                    android:layout_marginBottom="20dp"/>
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="20dp" />
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:theme="@style/TextLabel">
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/mno"
                     android:inputType="phone"
                     android:hint="Mobile Number"
-                    android:layout_marginBottom="35dp"/>
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="35dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -129,7 +141,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:spinnerMode="dropdown"
-                android:layout_marginBottom="35dp" />
+                android:layout_marginBottom="35dp"
+                />
 
             <!-- </com.google.android.material.textfield.TextInputLayout> -->
 
@@ -155,7 +168,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp" />
 -->
-            <Button
+            <!--<Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -164,31 +177,35 @@
                 android:background="@color/colorPrimary"
                 android:layout_marginBottom="20dp"
                 android:textColor="#fcfcfc"/>
-
+-->
             <Spinner
                 android:id="@+id/usertype"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:spinnerMode="dropdown"
-                android:layout_marginBottom="35dp" />
+                android:layout_marginBottom="35dp"
+                />
 
             <Spinner
                 android:id="@+id/gender"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:spinnerMode="dropdown"
-                android:layout_marginBottom="35dp" />
+                android:layout_marginBottom="35dp"
+                />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:theme="@style/TextLabel">
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/password"
                     android:inputType="textPassword"
                     android:hint="Password"
-                    android:layout_marginBottom="50dp"/>
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="50dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -200,7 +217,17 @@
                 android:textSize="20sp"
                 android:id="@+id/instbtn"
                 style="@style/buttonstyle"
-                />
+                android:layout_marginBottom="30dp" />
+
+            <TextView android:id="@+id/link_login"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:text="Already a member? Login"
+                android:gravity="center"
+                android:textSize="16dip"
+                android:textColor="@color/white"/>
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

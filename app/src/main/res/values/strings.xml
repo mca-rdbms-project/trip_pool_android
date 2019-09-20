@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Christ University</string>
+    <string name="app_name">Trip Pool</string>
 
     <string name="open">Open</string>
     <string name="close">Close</string>
@@ -62,11 +62,12 @@
 
 
     <string name="nameerror">Enter a Valid Name</string>
+    <string name="passerror">Enter a Valid Password</string>
     <string name="emailerror">Enter a Valid Email</string>
     <string name="mobileerror">Enter a Valid Mobile Number</string>
     <string name="modelerror">Enter a Valid Vehicle model</string>
     <string name="colorerror">Enter a Valid Vehicle Colour</string>
-    <string name="vnoerror">Enter a Valid Vehicle Number</string>
+    <string name="vnoerror">Enter a Valid Vehicle Number (For e.g: AS-01-DP-6140)</string>
     <string name="seaterror">Enter a Valid Seat Number</string>
     <!--<string name="dateerror">Enter a valid date</string>
     <string name="ageerror">Enter a valid age</string>

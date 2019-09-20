@@ -153,10 +153,5 @@
 
     </com.google.android.material.navigation.NavigationView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/userid"
-        />
 
 </androidx.drawerlayout.widget.DrawerLayout>

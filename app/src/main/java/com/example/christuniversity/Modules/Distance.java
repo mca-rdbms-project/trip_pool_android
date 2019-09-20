@@ -1,6 +1,7 @@
 package com.example.christuniversity.Modules;
 
 public class Distance {
+
     public String text;
     public int value;
 
@@ -8,4 +9,5 @@ public class Distance {
         this.text = text;
         this.value = value;
     }
+
 }

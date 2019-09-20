@@ -2,12 +2,16 @@ package com.example.christuniversity;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
+import java.util.HashMap;
+
+/*
 public class Session {
 
     private SharedPreferences prefs;
+
 
     public Session(Context cntx) {
         // TODO Auto-generated constructor stub
@@ -23,7 +27,8 @@ public class Session {
         return userid;
     }
 }
-/*
+*/
+
 
 
 public class Session {
@@ -46,11 +51,11 @@ public class Session {
     private static final String IS_LOGIN = "IsLoggedIn";
 
     // User name (make variable public to access from outside)
-    public static final String KEY_NAME = "name";
+    public static final String KEY_NAME = "userid";
 
-    // Email address (make variable public to access from outside)
+    /*// Email address (make variable public to access from outside)
     public static final String KEY_EMAIL = "email";
-
+*/
     // Constructor
     public Session(Context context){
         this._context = context;
@@ -58,17 +63,17 @@ public class Session {
         editor = pref.edit();
     }
 
-    */
+
 /**
      * Create login session
-     * *//*
+     * */
 
-    public void createLoginSession(String id){
+    public void createLoginSession(String usename){ //setuserid
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
         // Storing name in pref
-        editor.putString(KEY_NAME, id);
+        editor.putString(KEY_NAME, usename);
 
 
 
@@ -77,12 +82,12 @@ public class Session {
 
     }
 
-    */
+
 /**
      * Check login method wil check user login status
      * If false it will redirect user to login page
      * Else won't do anything
-     * *//*
+     * */
 
     public boolean checkLogin(){
         // Check login status
@@ -105,15 +110,15 @@ public class Session {
 
 
 
-    */
+
 /**
      * Get stored session data
-     * *//*
+     * */
 
-    public HashMap<String, String> getUserDetails(){
+    public HashMap<String, String> getUserDetails(){ //getuserid
         HashMap<String, String> user = new HashMap<String, String>();
         // user name
-        user.put(KEY_NAME, pref.getString(KEY_NAME, null));
+        user.put("",pref.getString(KEY_NAME, null));
 
         // user email id
         //user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
@@ -122,10 +127,10 @@ public class Session {
         return user;
     }
 
-    */
+
 /**
      * Clear session details
-     * *//*
+     * */
 
     public void logoutUser(){
         // Clearing all data from Shared Preferences
@@ -144,13 +149,13 @@ public class Session {
         _context.startActivity(i);
     }
 
-    */
+
 /**
      * Quick check for login
-     * **//*
+     * **/
 
     // Get Login State
     public boolean isLoggedIn(){
         return pref.getBoolean(IS_LOGIN, false);
     }
-}*/
+}

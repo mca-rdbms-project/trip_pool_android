@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        session = new Session(MainActivity.this);
+
         Retrofit retrofit = RetrofitClient.getInstance();
         myAPI = retrofit.create(INodeJs.class);
 
@@ -68,22 +70,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-        //awesomeValidation.addValidation(this, R.id.username, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.nameerror);
-        //awesomeValidation.addValidation(this, R.id.Password, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.nameerror);
-
-
-
         _btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (awesomeValidation.validate()) {
-                    loginUser(_username.getText().toString(),
+                     loginUser(_username.getText().toString(),
                             _Password.getText().toString());
-                }
 
-
-                //mProgress.show();
 
             }
         });
@@ -120,20 +113,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             //Toast.makeText(MainActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
                             mProgress.dismiss();
-                            //global variable
-                            session = new Session(MainActivity.this); //in oncreate
-//and now we set sharedpreference then use this like
-
-                            session.setusename(obj1.optString("user_id"));
+                            session.createLoginSession(obj1.optString("user_id"));
                             Intent int1 = new Intent(MainActivity.this, Homepage.class);
                             //obj1.optString("user_id");
                             //obj1.putOpt("user_id", obj1);
                             startActivity(int1);
-                            //finish();
+                            finish();
                         }
                         else
                             mProgress.dismiss();
-                        Toast.makeText(MainActivity.this, "successful"+s, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Invalid Username or Password", Toast.LENGTH_SHORT).show();
                     }
                 }));
 
@@ -147,21 +136,3 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 }
-
-
-       /* Spinner spinner = (Spinner) findViewById(R.id.spinner);
-
-        String[] acc_type = new String[]{
-                "Account Type",
-                "Faculty",
-                "Student",
-        };
-
-        // Initializing an ArrayAdapter
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
-                this,R.layout.spinner_item,acc_type
-        );
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
-        spinner.setAdapter(spinnerArrayAdapter);*/
-// }
-

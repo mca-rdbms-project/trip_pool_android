@@ -12,10 +12,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/linearlayout">
+    android:id="@+id/linearlayout"
+    >
 
 
-    <EditText
+    <!--<EditText
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:id="@+id/etOrigin"
@@ -34,8 +35,46 @@
         android:background="@drawable/rounded_edittext"
         android:layout_margin="15dp"
         android:padding="10dp"/>
+-->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:alpha="0.5">
+
+    <!--<EditText
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:id="@+id/etOrigin"
+        android:hint="Current Location"
+        android:background="@drawable/rounded_edittext"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_margin="15dp"
+        android:padding="10dp"/> -->
 
 
+    <fragment
+        android:id="@+id/etOrigin"
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+
+    <fragment
+        android:id="@+id/etDestination"
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+</LinearLayout>
 
     <fragment
         android:id="@+id/map"
@@ -52,7 +91,7 @@
         android:layout_height="350dp"
         android:background="@color/back_net_banking"
         app:behavior_hideable="false"
-        app:behavior_peekHeight="55dp"
+        app:behavior_peekHeight="65dp"
         app:layout_behavior="@string/bottom_sheet_behavior"
         android:layout_margin="15dp">
 
@@ -149,8 +188,7 @@
                 android:layout_margin="15dp"
                 android:padding="10dp"
                 android:id="@+id/v_no"
-                android:inputType="number"
-                android:hint="Vehicle Number"
+                android:hint="Vehicle Number(eg: AS-01-DP-6140)"
                 android:background="@drawable/rounded_edittext"/>
 
             <CheckBox

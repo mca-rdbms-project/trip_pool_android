@@ -26,8 +26,8 @@ public interface INodeJs {
 
     @POST("do-offer-trip")
     @FormUrlEncoded
-    Observable<String> driverinfo(@Field("date") String date, @Field("time") String time, @Field("f_location") String f_location, @Field("to_location") String to_location, @Field("v_type") String v_type, @Field("seats") String seats,
-                                  @Field("v_model") String v_model, @Field("v_color") String v_color, @Field("v_no") String v_no, @Field("rule1") String rule1,
+    Observable<String> driverinfo(@Field("date") String date, @Field("time") String time, @Field("origin") String f_location, @Field("destination") String to_location, @Field("vehicle") String v_type, @Field("seats") String seats,
+                                  @Field("v_model") String v_model, @Field("v_color") String v_color, @Field("v_no") String v_no, @Field("user") String user_id, @Field("rule1") String rule1,
                                   @Field("rule2") String rule2, @Field("rule3") String rule3, @Field("rule4") String rule4, @Field("rule5") String rule5);
 
     @POST("find-trip")
@@ -35,25 +35,28 @@ public interface INodeJs {
     Observable<String> passengerinfo(@Field("date") String date, @Field("time") String time, @Field("f_location") String f_location, @Field("to_location") String to_location);
     //Call<String> getString_listview();
 
+    @POST("request-trip")
+    @FormUrlEncoded
+    Observable<String> requestinfo(/*@Field("user_id") String user_id,*/ @Field("trip_id") String trip_id);
+
+    @POST("ride-request")
+    @FormUrlEncoded
+    Observable<String> riderequestinfo(@Field("user_id") String user_id);
+
+
     @GET("cities")
     Call<String> getJSONString();
 
-    @GET("get-user-id")
+    /*@GET("get-user-id")
     Call<String> getuserid();
-
+*/
     @GET("colleges")
     Call<String> getJSONString1();
 
     @GET("list-view-rider")
     Call<String> getString_listview();
 
-    /*@POST("CollegesByCity")
-    Observable<String> cityid(@Field("city_id") String city_id);
-*/
 
-    /*@GET("CollegesByCity")
-    Call<String> getJSONString1();
-*/
 
 
     }

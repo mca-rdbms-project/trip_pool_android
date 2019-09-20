@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -15,6 +14,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.HashMap;
+
 public class Homepage extends AppCompatActivity implements View.OnClickListener{
 
     private DrawerLayout mDrawerLayout;
@@ -22,10 +23,8 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
     private Toolbar toolbar;
     private CardView _passenger, _driver;
     private NavigationView _nv;
-
-
-    private Session session;//global variable
-
+    private Session session;
+    private HashMap<String, String> uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,29 +32,25 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
         setContentView(R.layout.activity_homepage);
 
         session = new Session(Homepage.this);
+        session.checkLogin();
 
         mDrawerLayout=(DrawerLayout) findViewById(R.id.drawer);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        TextView userid = (TextView) findViewById(R.id.userid);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToogle=new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
         mDrawerLayout.addDrawerListener(mToogle);
         mToogle.syncState();
 
-        String uid = session.getuserid();
-        userid.setText(uid);
-
-
-
-
-
         _passenger=(CardView) findViewById(R.id.passenger);
         _driver=(CardView) findViewById(R.id.driver);
 
         _passenger.setOnClickListener(this);
         _driver.setOnClickListener(this);
+
+        uid = session.getUserDetails();
+
 
 
         _nv = (NavigationView)findViewById(R.id.nv);
@@ -82,14 +77,13 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
                     case R.id.offer:
                         intent = new Intent(Homepage.this, OfferActivity.class);
                         startActivity(intent);
-                        break;
+                        break;*/
                     case R.id.help:
                         intent = new Intent(Homepage.this, HelpActivity.class);
                         startActivity(intent);
-                        break;*/
+                        break;
                     case R.id.logout:
-                        intent = new Intent(Homepage.this, LogoutActivity.class);
-                        startActivity(intent);
+                        session.logoutUser();
                         break;
                     default:
                         return true;
@@ -103,6 +97,7 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
 
 
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -119,12 +114,12 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
         switch (v.getId())
         {
             case R.id.passenger : intent=new Intent(this,PermissionsActivity.class);
-                                    startActivity(intent);
-                                    break;
+                startActivity(intent);
+                break;
 
             case R.id.driver : intent=new Intent(this,PermissionsActivity1.class);
-                                startActivity(intent);
-                                break;
+                startActivity(intent);
+                break;
         }
     }
 }

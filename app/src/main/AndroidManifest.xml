@@ -20,6 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".HelpActivity"></activity>
+        <activity android:name=".RiderequestActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -31,7 +33,7 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".Passenger_ride_list"></activity>
+        <activity android:name=".Passenger_ride_list" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -50,20 +52,22 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".Driver_window" />
-        <!--<activity android:name=".Registration" />-->
-        <!--<activity android:name=".Homepage" />-->
+        <activity android:name=".Driver_window" /> <!-- <activity android:name=".Registration" /> -->
+        <!-- <activity android:name=".Homepage" /> -->
         <activity android:name=".Passenger_home" />
-        <activity
+        <!--
+<activity
             android:name=".MapActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".PermissionsActivity" />
-        <!-- <activity android:name=".PermissionsActivity"> -->
-        <activity android:name=".PermissionsActivity1"/>
+        -->
+        <activity android:name=".PermissionsActivity" /> <!-- <activity android:name=".PermissionsActivity"> -->
+        <activity android:name=".PermissionsActivity1" />
         <activity android:name=".Registration" />
         <activity android:name=".Homepage" />
         <activity android:name=".MainActivity">
-        <!--    <activity android:name=".Registration" >-->
+
+        <!--<activity android:name=".Homepage" >-->
+            <!-- <activity android:name=".Registration" > -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

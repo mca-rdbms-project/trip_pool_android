@@ -49,6 +49,7 @@ import com.google.android.gms.tasks.Task;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -73,7 +74,9 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
     private LocationCallback locationCallback;
     private final float DEFAULT_ZOOM = 15;
     private String v_type;
-    private String dateString,timeString;
+    private String dateString;
+    private String timeString,uid1;
+    private HashMap<String, String> uid;
     TextView _display_date, _display_time;
 
     INodeJs myAPI;
@@ -81,14 +84,20 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
 
     Retrofit retrofit = RetrofitClient.getInstance();
 
+    private Session session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps2);
+
+        session = new Session(MapsActivity2.this);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        uid = session.getUserDetails();
 
         myAPI = retrofit.create(INodeJs.class);
 

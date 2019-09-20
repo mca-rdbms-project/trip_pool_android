@@ -2,7 +2,11 @@ package com.example.christuniversity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +19,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,19 +34,77 @@ public class Passenger_ride_list extends AppCompatActivity {
 
     private ListView listView;
     private RetroAdapter retroAdapter;
-    INodeJs myAPI;
-    Retrofit retrofit = RetrofitClient.getInstance();
-    ArrayList<ModelListView> modelListViewArrayList;
+    private INodeJs myAPI;
+
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    private Retrofit retrofit = RetrofitClient.getInstance();
+    private ArrayList<ModelListView> modelListViewArrayList;
+    private Button _reqbtn;
+    private Session session;
+    private HashMap<String, String> uid;
+    private String tid,uid1;
+    private TextView trip_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passenger_ride_list);
 
+        session = new Session(Passenger_ride_list.this);
+
+        uid = session.getUserDetails();
+        uid1=uid.toString();
         listView = findViewById(R.id.lv);
 
+        //ModelListView obj = new ModelListView();
+        //tid=obj.gettrip_id();
+
+        //_reqbtn = (Button)findViewById(R.id.reqbtn);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //requestinfo(/*uid1,*/tid);
+                Toast.makeText(getApplicationContext(), ((TextView) view).getText(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
         getJSONResponse();
     }
+
+
+    private void requestinfo(/*final String user_id,*/ final String trip_id) {
+
+        //_btn_login.setEnabled(false);
+
+       /* mProgress = new ProgressDialog(MainActivity.this,
+                R.style.AppTheme_Dark_Dialog);
+        mProgress.setIndeterminate(true);
+        //mProgress.setTitle("Processing...");
+        mProgress.setMessage("Authenticating");
+        //mProgress.setCancelable(false);
+        mProgress.show();
+
+*/
+
+        compositeDisposable.add(myAPI.requestinfo(/*user_id,*/trip_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        //JSONObject obj1 = new JSONObject(s);
+                        //tid = obj1.optString("trip_id");
+
+                        //mProgress.dismiss();
+                        Toast.makeText(Passenger_ride_list.this, "Your Registration is successful" + s, Toast.LENGTH_SHORT).show();
+
+                    }
+                }));
+
+    }
+
 
     private void getJSONResponse(){
 
@@ -85,15 +152,20 @@ public class Passenger_ride_list extends AppCompatActivity {
                 modelListViewArrayList = new ArrayList<>();
                 JSONArray dataArray  = obj.getJSONArray("data");
 
-                for (int i = 0; i < dataArray.length(); i++) {
+                for(int i = 0; i < dataArray.length(); i++) {
 
                     ModelListView modelListView = new ModelListView();
                     JSONObject dataobj = dataArray.getJSONObject(i);
 
                     //modelListView.setImgURL(dataobj.getString("imgURL"));
-                    modelListView.setName(dataobj.getString("name"));
-                    //modelListView.setCountry(dataobj.getString("country"));
-                    modelListView.setCity(dataobj.getString("city"));
+                    modelListView.setName(dataobj.getString("first_name"));
+                    modelListView.settime(dataobj.getString("time"));
+                    modelListView.setv_details(dataobj.getString("v_details"));
+                    modelListView.setrules(dataobj.getString("rules"));
+                    //modelListView.setdistance(dataobj.getString("distance"));
+                    modelListView.setmobile(dataobj.getString("mobile"));
+                    modelListView.settrip_id(dataobj.getString("trip_id"));
+                    //tid=dataobj.getString("trip_id");
 
                     modelListViewArrayList.add(modelListView);
 

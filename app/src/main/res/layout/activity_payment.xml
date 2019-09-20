@@ -1,38 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".PaymentActivity">
+<?xml version="1.0" encoding="UTF-8"?>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:text="Amount to be Paid:"
-        android:textSize="18sp"
-        android:padding="5dp"
-        android:layout_marginTop="50dp"
-        android:textColor="@android:color/black"
-        android:layout_height="wrap_content" />
+    <RelativeLayout tools:context=".PaymentActivity" android:layout_height="match_parent" android:layout_width="match_parent" xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_marginTop="100dp"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:id="@+id/amountText"
-        android:hint="Amount"
-        />
+    <EditText android:layout_height="wrap_content" android:layout_width="match_parent" android:textColor="@android:color/black" android:layout_marginTop="50dp" android:padding="5dp" android:textSize="18sp" android:text="Amount to be Paid:"/>
 
-    <Button
-        android:layout_width="100dp"
-        android:padding="10dp"
-        android:id="@+id/paytmButton"
-        android:layout_marginTop="170dp"
-        android:layout_gravity="center"
-        android:foreground="@drawable/border"
-        android:background="@drawable/paytm"
-        android:layout_height="60dp"
-        />
+    <EditText android:layout_height="wrap_content" android:layout_width="match_parent" android:textColor="@android:color/black" android:layout_marginTop="100dp" android:hint="Amount" android:id="@+id/amountText"/>
+
+    <Button android:layout_height="60dp" android:layout_width="100dp" android:layout_marginTop="170dp" android:padding="10dp" android:id="@+id/paytmButton" android:background="@drawable/paytm" android:foreground="@drawable/border" android:layout_gravity="center"/>
 
 </RelativeLayout>
