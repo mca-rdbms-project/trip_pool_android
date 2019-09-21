@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,15 +63,30 @@ public class Passenger_ride_list extends AppCompatActivity {
 
         //_reqbtn = (Button)findViewById(R.id.reqbtn);
 
+        getJSONResponse();
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //requestinfo(/*uid1,*/tid);
-                Toast.makeText(getApplicationContext(), ((TextView) view).getText(),
-                        Toast.LENGTH_SHORT).show();
+                /*
+                Toast.makeText(Passenger_ride_list.this, ((TextView)view).getText(),
+                        Toast.LENGTH_LONG).show();*/
+
+                LinearLayout linearLayoutParent = (LinearLayout) view;
+
+                // Getting the inner Linear Layout
+                LinearLayout linearLayoutChild = (LinearLayout ) linearLayoutParent.getChildAt(1);
+
+                // Getting the Country TextView
+                TextView tvCountry = (TextView) linearLayoutChild.getChildAt(6);
+
+
+                Toast.makeText(getBaseContext(), tvCountry.getText().toString(), Toast.LENGTH_SHORT).show();
+
             }
         });
-        getJSONResponse();
+        /*getJSONResponse();*/
     }
 
 
