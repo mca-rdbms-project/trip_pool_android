@@ -264,7 +264,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         awesomeValidation.addValidation(this, R.id.v_model, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.modelerror);
         awesomeValidation.addValidation(this, R.id.v_color, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.colorerror);
-        awesomeValidation.addValidation(this, R.id.v_no, "^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$", R.string.vnoerror);
+        //awesomeValidation.addValidation(this, R.id.v_no, "^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$", R.string.vnoerror);
         awesomeValidation.addValidation(this, R.id.seats, Range.closed(1, 6), R.string.seaterror);
 
 

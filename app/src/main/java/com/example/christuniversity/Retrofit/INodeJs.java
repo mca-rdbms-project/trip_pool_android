@@ -37,12 +37,17 @@ public interface INodeJs {
 
     @POST("request-trip")
     @FormUrlEncoded
-    Observable<String> requestinfo(/*@Field("user_id") String user_id,*/ @Field("trip_id") String trip_id);
+    Observable<String> requestinfo(@Field("user_id") String user_id, @Field("trip_id") String trip_id);
 
-    @POST("ride-request")
+    @POST("find-requests")
+    @FormUrlEncoded
+    Observable<String> senduserid(@Field("user_id") String user_id);
+
+
+    /*@POST("ride-request")
     @FormUrlEncoded
     Observable<String> riderequestinfo(@Field("user_id") String user_id);
-
+*/
 
     @GET("cities")
     Call<String> getJSONString();
@@ -55,6 +60,11 @@ public interface INodeJs {
 
     @GET("list-view-rider")
     Call<String> getString_listview();
+
+    @GET("view-requests")
+    Call<String> getriderequest_listview();
+
+
 
 
 

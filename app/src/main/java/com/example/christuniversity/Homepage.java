@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -12,12 +13,21 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.christuniversity.Retrofit.INodeJs;
+import com.example.christuniversity.Retrofit.RetrofitClient;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.HashMap;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
+
 public class Homepage extends AppCompatActivity implements View.OnClickListener{
 
+    private INodeJs myAPI;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToogle;
     private Toolbar toolbar;
@@ -25,6 +35,10 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
     private NavigationView _nv;
     private Session session;
     private HashMap<String, String> uid;
+    private String uid1;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private Retrofit retrofit = RetrofitClient.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +47,10 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
 
         session = new Session(Homepage.this);
         session.checkLogin();
+        uid = session.getUserDetails();
+        uid1=uid.toString();
+
+        myAPI = retrofit.create(INodeJs.class);
 
         mDrawerLayout=(DrawerLayout) findViewById(R.id.drawer);
         toolbar = findViewById(R.id.toolbar);
@@ -48,10 +66,6 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
 
         _passenger.setOnClickListener(this);
         _driver.setOnClickListener(this);
-
-        uid = session.getUserDetails();
-
-
 
         _nv = (NavigationView)findViewById(R.id.nv);
         _nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -69,12 +83,15 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
                     /*case R.id.booking:
                         intent = new Intent(Homepage.this, BookingActivity.class);
                         startActivity(intent);
-                        break;
+                        break;*/
                     case R.id.kyc:
-                        intent = new Intent(Homepage.this, KycActivity.class);
+                        intent = new Intent(Homepage.this, RequestrideActivity.class);
+                        senduserid(uid1);
                         startActivity(intent);
+
+
                         break;
-                    case R.id.offer:
+                    /*case R.id.offer:
                         intent = new Intent(Homepage.this, OfferActivity.class);
                         startActivity(intent);
                         break;*/
@@ -122,4 +139,24 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
                 break;
         }
     }
+
+    private void senduserid(final String user_id) {
+
+        compositeDisposable.add(myAPI.senduserid(user_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        //JSONObject obj1 = new JSONObject(s);
+                        //tid = obj1.optString("trip_id");
+
+                        //mProgress.dismiss();
+                        Toast.makeText(Homepage.this, "Your Registration is successful" + s, Toast.LENGTH_SHORT).show();
+
+                    }
+                }));
+
+    }
+
 }

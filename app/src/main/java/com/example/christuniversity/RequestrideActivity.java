@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,25 +22,22 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class Passenger_ride_list extends AppCompatActivity {
+public class RequestrideActivity extends AppCompatActivity {
 
     private ListView listView;
-    private RetroAdapter retroAdapter;
+    private RetroAdapter1 retroAdapter1;
     private INodeJs myAPI;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private Retrofit retrofit = RetrofitClient.getInstance();
-    private ArrayList<ModelListView> modelListViewArrayList;
+    private ArrayList<RequestListView> requestListViewArrayList;
     private Button _reqbtn;
     private Session session;
     private HashMap<String, String> uid;
@@ -53,9 +48,9 @@ public class Passenger_ride_list extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_passenger_ride_list);
+        setContentView(R.layout.activity_requestride);
 
-        session = new Session(Passenger_ride_list.this);
+        session = new Session(RequestrideActivity.this);
 
         uid = session.getUserDetails();
         uid1=uid.toString();
@@ -72,28 +67,17 @@ public class Passenger_ride_list extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Passenger_ride_list.this, MapsActivity2.class);
+                Intent intent = new Intent(RequestrideActivity.this, Homepage.class);
                 startActivity(intent);
                 finish();
             }
         });
 
-
-
-
-        //ModelListView obj = new ModelListView();
-        //tid=obj.gettrip_id();
-
-        //_reqbtn = (Button)findViewById(R.id.reqbtn);
-
         getJSONResponse();
 
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
 
                 LinearLayout linearLayoutParent = (LinearLayout) view;
 
@@ -103,59 +87,36 @@ public class Passenger_ride_list extends AppCompatActivity {
                 // Getting the Country TextView
                 TextView tvCountry = (TextView) linearLayoutChild.getChildAt(6);
 
-
-                //Toast.makeText(getBaseContext(), tvCountry.getText().toString(), Toast.LENGTH_SHORT).show();
-
-                requestinfo(uid1,tvCountry.getText().toString());
+                //getriderequest_listview(uid1,tvCountry.getText().toString());
 
             }
         });
-        /*getJSONResponse();*/
+*/
     }
 
 
-    private void requestinfo(final String user_id, final String trip_id) {
+    /*private void getriderequest_listview(final String user_id, final String trip_id) {
 
-        //_btn_login.setEnabled(false);
-
-       /* mProgress = new ProgressDialog(MainActivity.this,
-                R.style.AppTheme_Dark_Dialog);
-        mProgress.setIndeterminate(true);
-        //mProgress.setTitle("Processing...");
-        mProgress.setMessage("Authenticating");
-        //mProgress.setCancelable(false);
-        mProgress.show();
-
-*/
-
-        compositeDisposable.add(myAPI.requestinfo(user_id,trip_id)
+        compositeDisposable.add(myAPI.getriderequest_listview(user_id,trip_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        //JSONObject obj1 = new JSONObject(s);
-                        //tid = obj1.optString("trip_id");
-
-                        //mProgress.dismiss();
-                        Toast.makeText(Passenger_ride_list.this, "Your Registration is successful" + s, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RequestrideActivity.this, "Your Registration is successful" + s, Toast.LENGTH_SHORT).show();
 
                     }
                 }));
 
     }
-
+*/
 
     private void getJSONResponse(){
 
-        /*Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(MyInterface.JSONURL)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .build();
-*/
+
         myAPI = retrofit.create(INodeJs.class);
 
-        Call<String> call = myAPI.getString_listview();
+        Call<String> call = myAPI.getriderequest_listview();
 
         call.enqueue(new Callback<String>() {
             @Override
@@ -189,33 +150,30 @@ public class Passenger_ride_list extends AppCompatActivity {
             JSONObject obj = new JSONObject(response);
             if(obj.optString("status").equals("true")){
 
-                modelListViewArrayList = new ArrayList<>();
+                requestListViewArrayList = new ArrayList<>();
                 JSONArray dataArray  = obj.getJSONArray("data");
 
                 for(int i = 0; i < dataArray.length(); i++) {
 
-                    ModelListView modelListView = new ModelListView();
+                    RequestListView requestListView = new RequestListView();
                     JSONObject dataobj = dataArray.getJSONObject(i);
 
                     //modelListView.setImgURL(dataobj.getString("imgURL"));
-                    modelListView.setName(dataobj.getString("first_name"));
-                    modelListView.settime(dataobj.getString("time"));
-                    modelListView.setv_details(dataobj.getString("v_details"));
-                    modelListView.setrules(dataobj.getString("rules"));
-                    //modelListView.setdistance(dataobj.getString("distance"));
-                    modelListView.setmobile(dataobj.getString("mobile"));
-                    modelListView.settrip_id(dataobj.getString("trip_id"));
+                    requestListView.setName(dataobj.getString("first_name"));
+                    requestListView.setmobile(dataobj.getString("mobile"));
+                    //requestListView.setseats(dataobj.getString("seats"));
+                    requestListView.setcollege(dataobj.getString("college"));
                     //tid=dataobj.getString("trip_id");
 
-                    modelListViewArrayList.add(modelListView);
+                    requestListViewArrayList.add(requestListView);
 
                 }
 
-                retroAdapter = new RetroAdapter(this, modelListViewArrayList);
-                listView.setAdapter(retroAdapter);
+                retroAdapter1 = new RetroAdapter1(this, requestListViewArrayList);
+                listView.setAdapter(retroAdapter1);
 
             }else {
-                Toast.makeText(Passenger_ride_list.this, obj.optString("message")+"", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RequestrideActivity.this, obj.optString("message")+"", Toast.LENGTH_SHORT).show();
             }
 
         } catch (JSONException e) {

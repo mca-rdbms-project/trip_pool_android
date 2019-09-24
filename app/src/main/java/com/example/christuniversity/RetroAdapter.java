@@ -1,5 +1,102 @@
 package com.example.christuniversity;
 
+/*
+public class RetroAdapter extends RecyclerView.Adapter<RetroAdapter.ViewHolder> {
+
+    //private Context context;
+    private List<ModelListView> dataModelArrayList;
+
+
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        protected TextView tvname, tvtime, tvv_details, tvrules, tvdistance, tvmobile;
+        public TextView tvtrip_id, tvt_id;
+        protected ImageView iv;
+
+        public ViewHolder(View view) {
+            super(view);
+*/
+/*
+title = (TextView) view.findViewById(R.id.title);
+            genre = (TextView) view.findViewById(R.id.genre);
+            year = (TextView) view.findViewById(R.id.year);
+*//*
+
+
+
+
+            iv = (ImageView) view.findViewById(R.id.iv);
+            tvname = (TextView) view.findViewById(R.id.name);
+            tvtime = (TextView) view.findViewById(R.id.time);
+            tvv_details = (TextView) view.findViewById(R.id.v_details);
+            tvrules = (TextView) view.findViewById(R.id.rules);
+            //holder.tvdistance = (TextView) convertView.findViewById(R.id.distance);
+            tvmobile = (TextView) view.findViewById(R.id.mobile);
+            tvtrip_id = (TextView) view.findViewById(R.id.trip_id);
+            //holder.tvt_id = (TextView) convertView.findViewById(R.id.t_id);
+
+
+        }
+    }
+
+    public RetroAdapter(List<ModelListView> dataModelArrayList) {
+
+        this.dataModelArrayList = dataModelArrayList;
+    }
+
+
+
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+
+
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.retro_lv, parent, false);
+
+
+
+        return new ViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        ModelListView modelListView = dataModelArrayList.get(position);
+*/
+/*
+holder.title.setText(movie.getTitle());
+        holder.genre.setText(movie.getGenre());
+        holder.year.setText(movie.getYear());
+*//*
+
+
+
+        //Picasso.get().load(dataModelArrayList.get(position).getImgURL()).into(holder.iv);
+        holder.iv.setImageResource(R.drawable.kyc);
+        holder.tvname.setText("Name: "+modelListView.getName());
+        holder.tvtime.setText("Time: "+modelListView.gettime());
+        holder.tvv_details.setText("Vehicle Details: "+modelListView.getv_details());
+        holder.tvrules.setText("Rules: "+modelListView.getrules());
+        //holder.tvdistance.setText("Distance: "+dataModelArrayList.get(position).getdistance());
+        holder.tvmobile.setText("Mobile: "+modelListView.getmobile());
+        holder.tvtrip_id.setText("trip_id: "+modelListView.gettrip_id());
+        //holder.tvt_id.setText("trip_id: "+dataModelArrayList.get(position).gettrip_id());
+
+
+
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return dataModelArrayList.size();
+    }
+}
+*/
+
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,5 +191,3 @@ public class RetroAdapter extends BaseAdapter {
     }
 
 }
-
-

@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Passenger_ride_list"
+    android:background="#fcfcfc"
     android:orientation="vertical">
 
-    <!--<TextView
+
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar"/>
+
+
+            <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -16,10 +24,18 @@
         android:textColor="#000"
         />
 -->
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/lv"
-        android:layout_marginTop="10dp"/>
+            <ListView
+                android:id="@+id/lv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:divider="@color/cardview_shadow_start_color"
+                android:dividerHeight="1dp"
+                android:footerDividersEnabled="false"
+                android:headerDividersEnabled="false" />
+
+
 
 </LinearLayout>
+

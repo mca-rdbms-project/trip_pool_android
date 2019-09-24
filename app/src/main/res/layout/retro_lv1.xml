@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginLeft="20dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/logout"
+        android:id="@+id/iv" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:id="@+id/name"
+            android:text="dsffjfdndndn"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/mobile"
+            android:text="jkhjvgggv"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/seats"
+            android:text="jkhjvgggv"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/college_name"
+            android:text="jkhjvgggv"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:text="ACCEPT"
+            android:layout_weight="1"
+            android:id="@+id/accept"
+            android:textAlignment="center"
+            android:paddingStart="90dp"
+            android:paddingLeft="90dp"
+            android:textColor="@color/quantum_orange800"/>
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="15dp"
+                android:text="DECLINE"
+                android:id="@+id/decline"
+                android:textAlignment="center"
+                android:textColor="@color/quantum_orange800"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    </LinearLayout>
