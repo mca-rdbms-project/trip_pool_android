@@ -42,12 +42,6 @@
             android:id="@+id/mobile"
             android:text="jkhjvgggv"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:id="@+id/seats"
-            android:text="jkhjvgggv"/>
 
         <TextView
             android:layout_width="wrap_content"
