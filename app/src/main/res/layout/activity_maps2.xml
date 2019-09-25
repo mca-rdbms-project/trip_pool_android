@@ -15,36 +15,60 @@
         android:id="@+id/linearlayout">
 
 
-        <EditText
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:id="@+id/etOrigin"
-            android:hint="Current Location"
-            android:background="@drawable/rounded_edittext"
-            android:layout_marginTop="30dp"
-            android:layout_margin="15dp"
-            android:padding="10dp"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:alpha="0.5">
 
-        <EditText
+            <fragment
+                android:id="@+id/etOrigin"
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                />
+
+            <fragment
+                android:id="@+id/etDestination"
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                />
+        </LinearLayout>
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:hint="Where To?"
-            android:id="@+id/etDestination"
-            android:background="@drawable/rounded_edittext"
-            android:layout_margin="15dp"
-            android:padding="10dp"/>
+            android:layout_height="match_parent" />
 
-        <TextView
-            android:id="@+id/tdate"
-            android:layout_width="wrap_content"
-            android:layout_height="5dp"
-            android:layout_centerHorizontal="true" />
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/ttime"
-            android:layout_width="wrap_content"
-            android:layout_height="5dp"
-            android:layout_centerHorizontal="true" />
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:background="@color/back_net_banking"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="65dp"
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        android:layout_margin="15dp">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="50dp"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -82,21 +106,15 @@
 
         </LinearLayout>
 
-        <fragment
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+        <EditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="650dp"
-        android:gravity="center">
+            android:layout_height="45dp"
+            android:layout_margin="15dp"
+            android:padding="10dp"
+            android:id="@+id/seats"
+            android:inputType="number"
+            android:hint="Number of Seats"
+            android:background="@drawable/rounded_edittext"/>
 
     <Button
         android:id="@+id/btnFindPath"
@@ -105,9 +123,11 @@
         android:layout_margin="30dp"
         android:padding="10dp"
         android:text="SEARCH FOR A RIDE"
+        android:layout_gravity="center"
         android:textColor="#FFFFFF"
         android:background="@color/colorPrimary"/>
 
     </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

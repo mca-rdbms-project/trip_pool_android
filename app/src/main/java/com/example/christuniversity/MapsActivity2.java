@@ -23,6 +23,7 @@ import com.example.christuniversity.Modules.Route;
 import com.example.christuniversity.Retrofit.INodeJs;
 import com.example.christuniversity.Retrofit.RetrofitClient;
 import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -45,10 +46,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -62,8 +69,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
 
     private GoogleMap mMap;
     private Button btnFindPath;
-    private EditText etOrigin;
-    private EditText etDestination;
+    private AutocompleteSupportFragment etOrigin, etDestination;
     private List<Marker> originMarkers = new ArrayList<>();
     private List<Marker> destinationMarkers = new ArrayList<>();
     private List<Polyline> polylinePaths = new ArrayList<>();
@@ -78,6 +84,10 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
     private String timeString,uid1;
     private HashMap<String, String> uid;
     TextView _display_date, _display_time;
+    PlacesClient placesClient;
+    private String origin1,destination1;
+    public EditText _seats;
+
 
     INodeJs myAPI;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -92,6 +102,12 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_maps2);
 
         session = new Session(MapsActivity2.this);
+
+        Places.initialize(getApplicationContext(), "AIzaSyBSjMmeNnPp00VQhtalS1czrRCYf2ATYLg");
+
+        placesClient = Places.createClient(this);
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -111,16 +127,16 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                _display_date = (TextView) findViewById(R.id.tdate);
+                                //_display_date = (TextView) findViewById(R.id.tdate);
                                 long date = System.currentTimeMillis();
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                                 dateString = sdf.format(date);
-                                _display_date.setAlpha(0.0f);
+                                //_display_date.setAlpha(0.0f);
 
-                                _display_time = (TextView) findViewById(R.id.ttime);
+                                //_display_time = (TextView) findViewById(R.id.ttime);
                                 SimpleDateFormat stf = new SimpleDateFormat("hh:mm a");
                                 timeString = stf.format(date);
-                                _display_time.setAlpha(0.0f);
+                                //_display_time.setAlpha(0.0f);
 
 
                             }
@@ -136,8 +152,52 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
 
 
         btnFindPath = (Button) findViewById(R.id.btnFindPath);
-        etOrigin = (EditText) findViewById(R.id.etOrigin);
-        etDestination = (EditText) findViewById(R.id.etDestination);
+        _seats = (EditText) findViewById(R.id.seats);
+
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), "AIzaSyBSjMmeNnPp00VQhtalS1czrRCYf2ATYLg");
+        }
+
+
+        // Initialize the AutocompleteSupportFragment.
+
+        etOrigin = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.etOrigin);
+
+
+        etOrigin.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS));
+
+
+        etOrigin.setOnPlaceSelectedListener(new com.google.android.libraries.places.widget.listener.PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                origin1=place.getAddress();
+                //etDest.setText(origin1);
+            }
+
+            @Override
+            public void onError(@NonNull Status status) {
+
+            }
+        });
+
+
+        etDestination = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.etDestination);
+
+        etDestination.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS));
+
+        etDestination.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                destination1=place.getAddress();
+            }
+
+            @Override
+            public void onError(@NonNull Status status) {
+
+            }
+        });
 
 
 
@@ -147,10 +207,11 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
                 sendRequest();
 
                 passengerinfo(dateString, timeString,
-                        etOrigin.getText().toString(),
-                        etDestination.getText().toString());
+                        origin1,
+                        destination1, _seats.getText().toString());
 
                 Intent intent = new Intent(MapsActivity2.this, Passenger_ride_list.class);
+                intent.putExtra("Username", String.valueOf(_seats));
                 startActivity(intent);
             }
         });
@@ -171,9 +232,9 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
 
     }
 
-    private void passengerinfo(final String ddate, final String ttime, final String etOrigin, final String etDestination) {
+    private void passengerinfo(final String ddate, final String ttime, final String etOrigin, final String etDestination, final String seats) {
 
-        compositeDisposable.add(myAPI.passengerinfo(ddate, ttime, etOrigin, etDestination)
+        compositeDisposable.add(myAPI.passengerinfo(ddate, ttime, etOrigin, etDestination, seats)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
@@ -187,7 +248,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
     }
 
     private void sendRequest() {
-        String origin = etOrigin.getText().toString();
+        /*String origin = etOrigin.getText().toString();
         String destination = etDestination.getText().toString();
         if (origin.isEmpty()) {
             Toast.makeText(this, "Please enter origin address!", Toast.LENGTH_SHORT).show();
@@ -197,9 +258,9 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
             Toast.makeText(this, "Please enter destination address!", Toast.LENGTH_SHORT).show();
             return;
         }
-
+*/
         try {
-            new DirectionFinder(this, origin, destination).execute();
+            new DirectionFinder(this, origin1, destination1).execute();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

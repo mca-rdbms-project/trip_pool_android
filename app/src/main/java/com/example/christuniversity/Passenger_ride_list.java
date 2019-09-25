@@ -46,7 +46,7 @@ public class Passenger_ride_list extends AppCompatActivity {
     private Button _reqbtn;
     private Session session;
     private HashMap<String, String> uid;
-    private String tid,uid1;
+    private String tid,uid1,seats;
     private TextView trip_id;
     private Toolbar toolbar;
 
@@ -78,7 +78,7 @@ public class Passenger_ride_list extends AppCompatActivity {
             }
         });
 
-
+        seats = getIntent().getStringExtra("Username");
 
 
         //ModelListView obj = new ModelListView();
@@ -106,7 +106,7 @@ public class Passenger_ride_list extends AppCompatActivity {
 
                 //Toast.makeText(getBaseContext(), tvCountry.getText().toString(), Toast.LENGTH_SHORT).show();
 
-                requestinfo(uid1,tvCountry.getText().toString());
+                requestinfo(uid1,tvCountry.getText().toString(),seats);
 
             }
         });
@@ -114,7 +114,7 @@ public class Passenger_ride_list extends AppCompatActivity {
     }
 
 
-    private void requestinfo(final String user_id, final String trip_id) {
+    private void requestinfo(final String user_id, final String trip_id, final String seat) {
 
         //_btn_login.setEnabled(false);
 
@@ -128,7 +128,7 @@ public class Passenger_ride_list extends AppCompatActivity {
 
 */
 
-        compositeDisposable.add(myAPI.requestinfo(user_id,trip_id)
+        compositeDisposable.add(myAPI.requestinfo(user_id,trip_id,seat)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {

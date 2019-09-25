@@ -191,6 +191,59 @@
                 android:hint="Vehicle Number(eg: AS-01-DP-6140)"
                 android:background="@drawable/rounded_edittext"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_margin="15dp"
+                android:padding="10dp"
+                android:id="@+id/ride_date"
+                android:hint="Pick a Date"
+                android:background="@drawable/rounded_edittext"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_margin="15dp"
+                android:padding="10dp"
+                android:text="SELECT DATE"
+                android:id="@+id/btn_date"
+                android:textColor="#FFFFFF"
+                android:background="@color/quantum_orange800"
+                />
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_margin="15dp"
+                android:padding="10dp"
+                android:id="@+id/ride_time"
+                android:hint="Pick a Date"
+                android:background="@drawable/rounded_edittext" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_margin="15dp"
+                android:padding="10dp"
+                android:text="SELECT TIME"
+                android:id="@+id/btn_time"
+                android:textColor="#FFFFFF"
+                android:background="@color/quantum_orange800"/>
+
+        </LinearLayout>
+
             <CheckBox
                 android:id="@+id/rule1"
                 android:layout_width="wrap_content"
@@ -198,6 +251,7 @@
                 android:layout_margin="15dp"
                 android:layout_centerHorizontal="true"
                 android:checked="false"
+                android:buttonTint="@color/colorPrimary"
                 android:text="Do not eat in the car or dirty the cab"
                 />
 
@@ -208,6 +262,7 @@
                 android:layout_margin="15dp"
                 android:layout_centerHorizontal="true"
                 android:checked="false"
+                android:buttonTint="@color/colorPrimary"
                 android:text="Avoid being rude"
                 />
 
@@ -218,6 +273,7 @@
                 android:layout_margin="15dp"
                 android:layout_centerHorizontal="true"
                 android:checked="false"
+                android:buttonTint="@color/colorPrimary"
                 android:text="No picking up additional customers"
                 />
 
@@ -228,6 +284,7 @@
                 android:layout_margin="15dp"
                 android:layout_centerHorizontal="true"
                 android:checked="false"
+                android:buttonTint="@color/colorPrimary"
                 android:text="Stupidity while driving is unaccepted"
                 />
 
@@ -238,25 +295,9 @@
                 android:layout_margin="15dp"
                 android:layout_centerHorizontal="true"
                 android:checked="false"
+                android:buttonTint="@color/colorPrimary"
                 android:text="Passenger,s drunk are not acceptable"
                 />
-
-            <TextView
-                android:id="@+id/tdate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:textSize="30sp"
-                android:layout_marginBottom="36dp"/>
-
-            <TextView
-                android:id="@+id/ttime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:textSize="30sp"
-                android:layout_marginBottom="36dp"/>
-
 
             <Button
                 android:id="@+id/btnFindPath"

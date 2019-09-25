@@ -1,7 +1,9 @@
 package com.example.christuniversity;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Color;
@@ -12,9 +14,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,6 +26,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
+import com.example.christuniversity.Modules.DirectionFinder;
 import com.example.christuniversity.Modules.DirectionFinderListener;
 import com.example.christuniversity.Modules.Route;
 import com.example.christuniversity.Retrofit.INodeJs;
@@ -57,9 +62,11 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.common.collect.Range;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -72,11 +79,11 @@ import retrofit2.Retrofit;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener, AdapterView.OnItemSelectedListener {
 
     private GoogleMap mMap;
-    private Button btnFindPath;
+    private Button btnFindPath, btnDatePicker, btnTimePicker;
     //private EditText etOrigin;
 
     private AutocompleteSupportFragment etOrigin, etDestination;
-    private EditText etDest;
+    private EditText etDest,_ride_time,_ride_date;
     private List<Marker> originMarkers = new ArrayList<>();
     private List<Marker> destinationMarkers = new ArrayList<>();
     private List<Polyline> polylinePaths = new ArrayList<>();
@@ -105,6 +112,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     TextView _display_date, _display_time;
     private Session session;
     PlacesClient placesClient;
+    private int mYear, mMonth, mDay, mHour, mMinute;
 
     private AwesomeValidation awesomeValidation;
 
@@ -146,14 +154,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                _display_date = (TextView) findViewById(R.id.tdate);
+                                //_display_date = (TextView) findViewById(R.id.tdate);
                                 long date = System.currentTimeMillis();
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                                 dateString = sdf.format(date);
                                 //_display_date.setText(dateString);
                                 //_display_date.setAlpha(0.0f);
 
-                                _display_time = (TextView) findViewById(R.id.ttime);
+                                //_display_time = (TextView) findViewById(R.id.ttime);
                                 SimpleDateFormat stf = new SimpleDateFormat("hh:mm a");
                                 timeString = stf.format(date);
                                 //_display_time.setText(timeString);
@@ -182,11 +190,67 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         _rule3 = (CheckBox) findViewById(R.id.rule3);
         _rule4 = (CheckBox) findViewById(R.id.rule4);
         _rule5 = (CheckBox) findViewById(R.id.rule5);
+        _ride_date = (EditText) findViewById(R.id.ride_date);
+        _ride_time = (EditText) findViewById(R.id.ride_time);
+        btnDatePicker=(Button)findViewById(R.id.btn_date);
+        btnTimePicker=(Button)findViewById(R.id.btn_time);
+
         //LinearLayout ll = (LinearLayout) findViewById(R.id.linearlayout);
         //ll.setAlpha((float) 0.4);
 
-
         btnFindPath = (Button) findViewById(R.id.btnFindPath);
+
+        btnDatePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get Current Date
+                final Calendar c = Calendar.getInstance();
+                mYear = c.get(Calendar.YEAR);
+                mMonth = c.get(Calendar.MONTH);
+                mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(MapsActivity.this, R.style.DialogTheme,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+
+                                _ride_date.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+
+        });
+
+        btnTimePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get Current Time
+                final Calendar c = Calendar.getInstance();
+                mHour = c.get(Calendar.HOUR_OF_DAY);
+                mMinute = c.get(Calendar.MINUTE);
+
+                // Launch Time Picker Dialog
+                TimePickerDialog timePickerDialog = new TimePickerDialog(MapsActivity.this, R.style.DialogTheme,
+                        new TimePickerDialog.OnTimeSetListener() {
+
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay,
+                                                  int minute) {
+
+                                _ride_time.setText(hourOfDay + ":" + minute);
+                            }
+                        }, mHour, mMinute, false);
+                timePickerDialog.show();
+            }
+        });
+
+
+
         /*etOrigin = (EditText) findViewById(R.id.etOrigin);
         etDestination = (EditText) findViewById(R.id.etDestination);
 */
@@ -209,7 +273,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         etOrigin.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS));
 
 
-        etOrigin.setOnPlaceSelectedListener(new com.google.android.libraries.places.widget.listener.PlaceSelectionListener() {
+        etOrigin.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(@NonNull Place place) {
                 origin1=place.getAddress();
@@ -260,8 +324,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         _vehicle_type.setAdapter(adapter);
         _vehicle_type.setOnItemSelectedListener(this);
 
-
-
         awesomeValidation.addValidation(this, R.id.v_model, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.modelerror);
         awesomeValidation.addValidation(this, R.id.v_color, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.colorerror);
         //awesomeValidation.addValidation(this, R.id.v_no, "^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$", R.string.vnoerror);
@@ -273,7 +335,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
 
-                //sendRequest();
+                sendRequest();
 
 
                 if (_rule1.isChecked()) {
@@ -298,7 +360,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Toast.makeText(MapsActivity.this, "Please Select a Vehicle Type", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        driverinfo(dateString, timeString,
+                        driverinfo(_ride_date.getText().toString(),
+                                _ride_time.getText().toString(),
                                 //etOrigin.,
                                 //etDestination.getText().toString(),
                                 origin1,destination1,
@@ -346,9 +409,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    /*private void sendRequest() {
+    private void sendRequest() {
 
-*//*
+/*
         if (origin1.isEmpty()) {
             Toast.makeText(this, "Please enter origin address!", Toast.LENGTH_SHORT).show();
             return;
@@ -357,7 +420,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(this, "Please enter destination address!", Toast.LENGTH_SHORT).show();
             return;
         }
-*//*
+*/
 
         try {
             new DirectionFinder(this, origin1, destination1).execute();
@@ -365,7 +428,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             e.printStackTrace();
         }
     }
-*/
+
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {

@@ -32,12 +32,12 @@ public interface INodeJs {
 
     @POST("find-trip")
     @FormUrlEncoded
-    Observable<String> passengerinfo(@Field("date") String date, @Field("time") String time, @Field("f_location") String f_location, @Field("to_location") String to_location);
+    Observable<String> passengerinfo(@Field("date") String date, @Field("time") String time, @Field("f_location") String f_location, @Field("to_location") String to_location, @Field("seats") String seats);
     //Call<String> getString_listview();
 
     @POST("request-trip")
     @FormUrlEncoded
-    Observable<String> requestinfo(@Field("user_id") String user_id, @Field("trip_id") String trip_id);
+    Observable<String> requestinfo(@Field("user_id") String user_id, @Field("trip_id") String trip_id, @Field("seats") String seats);
 
     @POST("find-requests")
     @FormUrlEncoded
