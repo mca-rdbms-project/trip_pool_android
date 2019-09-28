@@ -43,6 +43,14 @@ public interface INodeJs {
     @FormUrlEncoded
     Observable<String> senduserid(@Field("user_id") String user_id);
 
+    @POST("accept-request")
+    @FormUrlEncoded
+    Observable<String> send_accept_requestid(@Field("user_id") String user_id, @Field("request_id") String request_id);
+
+    @POST("reject-request")
+    @FormUrlEncoded
+    Observable<String> send_decline_requestid(@Field("user_id") String user_id, @Field("request_id") String request_id);
+
 
     /*@POST("ride-request")
     @FormUrlEncoded
@@ -63,6 +71,8 @@ public interface INodeJs {
 
     @GET("view-requests")
     Call<String> getriderequest_listview();
+
+
 
 
 

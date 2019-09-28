@@ -28,7 +28,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,6 +53,7 @@ public class RequestrideActivity extends AppCompatActivity {
     private String tid,uid1;
     private TextView trip_id;
     private Toolbar toolbar;
+    TextView tvrequest_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +98,28 @@ public class RequestrideActivity extends AppCompatActivity {
 
                             @Override
                             public void onDismiss(ListViewAdapter view, int position) {
+
+                                View v = (View) listView.getChildAt(position);
+                                FrameLayout frameLayout = (FrameLayout) v;
+
+                                LinearLayout linearLayoutParent = (LinearLayout) frameLayout.getChildAt(0);
+
+                                // Getting the inner Linear Layout
+                                LinearLayout linearLayoutChild = (LinearLayout) linearLayoutParent.getChildAt(1);
+
+                                // Getting the Country TextView
+                                tvrequest_id = (TextView) linearLayoutChild.getChildAt(3);
+                                //Toast.makeText(RequestrideActivity.this, tvrequest_id.getText().toString(), Toast.LENGTH_SHORT).show();
+
+                                // Getting the Country TextView
+                                send_decline_requestid(uid1,tvrequest_id.getText().toString());
                                 retroAdapter1.remove(position);
+
+
+
                             }
                         });
+
 
         listView.setOnTouchListener(touchListener);
         listView.setOnScrollListener((AbsListView.OnScrollListener) touchListener.makeScrollListener());
@@ -113,7 +136,7 @@ public class RequestrideActivity extends AppCompatActivity {
                 else
                     {
 
-                        FrameLayout frameLayout = (FrameLayout) view;
+                    FrameLayout frameLayout = (FrameLayout) view;
 
                     LinearLayout linearLayoutParent = (LinearLayout) frameLayout.getChildAt(0);
 
@@ -121,15 +144,16 @@ public class RequestrideActivity extends AppCompatActivity {
                     LinearLayout linearLayoutChild = (LinearLayout) linearLayoutParent.getChildAt(1);
 
                     // Getting the Country TextView
-                    TextView tvrequest_id = (TextView) linearLayoutChild.getChildAt(3);
-                        Toast.makeText(RequestrideActivity.this, tvrequest_id.getText().toString(), Toast.LENGTH_SHORT).show();
-                    //getriderequest_listview(uid1,tvCountry.getText().toString());
+                    tvrequest_id = (TextView) linearLayoutChild.getChildAt(3);
+                    send_accept_requestid(uid1,tvrequest_id.getText().toString());
 
                 }
             }
         });
 
     }
+
+
 
 
     /*private void getriderequest_listview(final String user_id, final String trip_id) {
@@ -218,6 +242,69 @@ public class RequestrideActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+    }
+
+
+    private void send_accept_requestid(final String user_id, final String request_id) {
+
+        //_btn_login.setEnabled(false);
+
+       /* mProgress = new ProgressDialog(MainActivity.this,
+                R.style.AppTheme_Dark_Dialog);
+        mProgress.setIndeterminate(true);
+        //mProgress.setTitle("Processing...");
+        mProgress.setMessage("Authenticating");
+        //mProgress.setCancelable(false);
+        mProgress.show();
+
+*/
+
+        compositeDisposable.add(myAPI.send_accept_requestid(user_id,request_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        //JSONObject obj1 = new JSONObject(s);
+                        //tid = obj1.optString("trip_id");
+
+                        //mProgress.dismiss();
+                        Toast.makeText(RequestrideActivity.this, "Your Registration is successful" + s, Toast.LENGTH_SHORT).show();
+
+                    }
+                }));
+
+    }
+
+    private void send_decline_requestid(final String user_id, final String request_id) {
+
+        //_btn_login.setEnabled(false);
+
+       /* mProgress = new ProgressDialog(MainActivity.this,
+                R.style.AppTheme_Dark_Dialog);
+        mProgress.setIndeterminate(true);
+        //mProgress.setTitle("Processing...");
+        mProgress.setMessage("Authenticating");
+        //mProgress.setCancelable(false);
+        mProgress.show();
+
+*/
+
+        compositeDisposable.add(myAPI.send_decline_requestid(user_id,request_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        //JSONObject obj1 = new JSONObject(s);
+                        //tid = obj1.optString("trip_id");
+
+                        //mProgress.dismiss();
+                        Toast.makeText(RequestrideActivity.this, "Your Registration is successful" + s, Toast.LENGTH_SHORT).show();
+
+                    }
+                }));
 
     }
 
