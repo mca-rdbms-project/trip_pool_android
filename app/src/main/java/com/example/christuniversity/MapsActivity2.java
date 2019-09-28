@@ -211,7 +211,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
                         destination1, _seats.getText().toString());
 
                 Intent intent = new Intent(MapsActivity2.this, Passenger_ride_list.class);
-                intent.putExtra("Username", String.valueOf(_seats));
+                intent.putExtra("seats", _seats.getText().toString());
                 startActivity(intent);
             }
         });

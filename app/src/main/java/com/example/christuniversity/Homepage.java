@@ -88,8 +88,6 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
                         intent = new Intent(Homepage.this, RequestrideActivity.class);
                         senduserid(uid1);
                         startActivity(intent);
-
-
                         break;
                     /*case R.id.offer:
                         intent = new Intent(Homepage.this, OfferActivity.class);

@@ -61,6 +61,8 @@ public class Passenger_ride_list extends AppCompatActivity {
         uid1=uid.toString();
         listView = findViewById(R.id.lv);
 
+        seats = getIntent().getExtras().getString("seats");
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
@@ -78,7 +80,7 @@ public class Passenger_ride_list extends AppCompatActivity {
             }
         });
 
-        seats = getIntent().getStringExtra("Username");
+
 
 
         //ModelListView obj = new ModelListView();
@@ -170,7 +172,9 @@ public class Passenger_ride_list extends AppCompatActivity {
                         writeListView(jsonresponse);
 
                     } else {
-                        Log.i("onEmptyResponse", "Returned empty response");//Toast.makeText(getContext(),"Nothing returned",Toast.LENGTH_LONG).show();
+
+
+                        //Log.i("onEmptyResponse", "Returned empty response");//Toast.makeText(getContext(),"Nothing returned",Toast.LENGTH_LONG).show();
                     }
                 }
             }

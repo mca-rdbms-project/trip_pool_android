@@ -2,7 +2,7 @@ package com.example.christuniversity;
 
 public class RequestListView {
 
-    private String name,mobile,seats,college;
+    private String name,mobile,seats,college, request_id;
 
 
     public String getName() {
@@ -24,6 +24,13 @@ public class RequestListView {
     }
     public void setseats(String seats) {
         this.seats = seats;
+    }
+
+    public String getrequest_id() {
+        return request_id;
+    }
+    public void setrequest_id(String request_id) {
+        this.request_id = request_id;
     }
 
     public String getcollege() {

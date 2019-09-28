@@ -21,6 +21,11 @@ public class RetroAdapter1 extends BaseAdapter {
         this.dataModelArrayList = dataModelArrayList;
     }
 
+    public void remove(int position) {
+        dataModelArrayList.remove(position);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getViewTypeCount() {
         return getCount();
@@ -61,8 +66,10 @@ public class RetroAdapter1 extends BaseAdapter {
             holder.tvmobile = (TextView) convertView.findViewById(R.id.mobile);
             holder.tvseats = (TextView) convertView.findViewById(R.id.seats);
             holder.tvcollege = (TextView) convertView.findViewById(R.id.college_name);
-            //holder.tvt_id = (TextView) convertView.findViewById(R.id.t_id);
-
+            holder.tvrequest_id = (TextView) convertView.findViewById(R.id.request_id);
+            /*holder.btnaccept = (Button) convertView.findViewById(R.id.accept);
+            holder.btndecline = (Button) convertView.findViewById(R.id.decline);
+*/
             convertView.setTag(holder);
         }else {
             // the getTag returns the viewHolder object set as a tag to the view
@@ -74,16 +81,50 @@ public class RetroAdapter1 extends BaseAdapter {
         holder.tvname.setText("Name: "+dataModelArrayList.get(position).getName());
         holder.tvmobile.setText("Mobile: "+dataModelArrayList.get(position).getmobile());
         //holder.tvseats.setText("Mobile: "+dataModelArrayList.get(position).getseats());
-        holder.tvcollege.setText("Mobile: "+dataModelArrayList.get(position).getcollege());
-        //holder.tvt_id.setText("trip_id: "+dataModelArrayList.get(position).gettrip_id());
+        holder.tvcollege.setText("College: "+dataModelArrayList.get(position).getcollege());
+        holder.tvrequest_id.setText("request_id: "+dataModelArrayList.get(position).getrequest_id());
+
+        //holder.btndecline.setOnClickListener(onAcceptListener(position, holder));
+
+        //holder.btndecline.setOnClickListener(onDeclineListener(position, holder));
+
 
         return convertView;
     }
 
+    /*private View.OnClickListener onAcceptListener(final int position, final ViewHolder holder) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //holder.tvrequest_id.getText().toString();
+                Toast.makeText(getContext(),holder.tvrequest_id.getText().toString(),Toast.LENGTH_LONG).show();
+            }
+        };
+    }
+*/
+
+    /*private View.OnClickListener onDeclineListener(final int position, final ViewHolder holder) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinearLayout linearLayoutParent = (LinearLayout) v;
+
+                // Getting the inner Linear Layout
+                LinearLayout linearLayoutChild = (LinearLayout ) linearLayoutParent.getChildAt(1);
+
+                // Getting the Country TextView
+                TextView tvrequest_id1 = (TextView) linearLayoutChild.getChildAt(4);
+                Toast.makeText(getContext(),tvrequest_id1.getText().toString(),Toast.LENGTH_LONG).show();
+            }
+        };
+    }
+*/
     private class ViewHolder {
 
-        protected TextView tvname, tvmobile, tvseats, tvcollege;
+        protected TextView tvname, tvmobile, tvseats, tvcollege, tvrequest_id;
         protected ImageView iv;
+        //protected Button btnaccept,btndecline;
     }
 
 }

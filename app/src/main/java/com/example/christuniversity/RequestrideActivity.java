@@ -4,7 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +18,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.christuniversity.Retrofit.INodeJs;
 import com.example.christuniversity.Retrofit.RetrofitClient;
+import com.hudomju.swipe.SwipeToDismissTouchListener;
+import com.hudomju.swipe.adapter.ListViewAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,7 +60,7 @@ public class RequestrideActivity extends AppCompatActivity {
 
         uid = session.getUserDetails();
         uid1=uid.toString();
-        listView = findViewById(R.id.lv);
+
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,25 +79,56 @@ public class RequestrideActivity extends AppCompatActivity {
             }
         });
 
+        listView = findViewById(R.id.lv);
+
         getJSONResponse();
 
-        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        final SwipeToDismissTouchListener<ListViewAdapter> touchListener =
+                new SwipeToDismissTouchListener<>(
+                        new ListViewAdapter(listView),
+                        new SwipeToDismissTouchListener.DismissCallbacks<ListViewAdapter>() {
+                            @Override
+                            public boolean canDismiss(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onDismiss(ListViewAdapter view, int position) {
+                                retroAdapter1.remove(position);
+                            }
+                        });
+
+        listView.setOnTouchListener(touchListener);
+        listView.setOnScrollListener((AbsListView.OnScrollListener) touchListener.makeScrollListener());
+
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                LinearLayout linearLayoutParent = (LinearLayout) view;
+                if (touchListener.existPendingDismisses()) {
+                    touchListener.undoPendingDismiss();
+                }
+                else
+                    {
 
-                // Getting the inner Linear Layout
-                LinearLayout linearLayoutChild = (LinearLayout ) linearLayoutParent.getChildAt(1);
+                        FrameLayout frameLayout = (FrameLayout) view;
 
-                // Getting the Country TextView
-                TextView tvCountry = (TextView) linearLayoutChild.getChildAt(6);
+                    LinearLayout linearLayoutParent = (LinearLayout) frameLayout.getChildAt(0);
 
-                //getriderequest_listview(uid1,tvCountry.getText().toString());
+                    // Getting the inner Linear Layout
+                    LinearLayout linearLayoutChild = (LinearLayout) linearLayoutParent.getChildAt(1);
 
+                    // Getting the Country TextView
+                    TextView tvrequest_id = (TextView) linearLayoutChild.getChildAt(3);
+                        Toast.makeText(RequestrideActivity.this, tvrequest_id.getText().toString(), Toast.LENGTH_SHORT).show();
+                    //getriderequest_listview(uid1,tvCountry.getText().toString());
+
+                }
             }
         });
-*/
+
     }
 
 
@@ -163,6 +200,8 @@ public class RequestrideActivity extends AppCompatActivity {
                     requestListView.setmobile(dataobj.getString("mobile"));
                     //requestListView.setseats(dataobj.getString("seats"));
                     requestListView.setcollege(dataobj.getString("college"));
+                    requestListView.setrequest_id(dataobj.getString("req_id"));
+                    // request_id need to be done.
                     //tid=dataobj.getString("trip_id");
 
                     requestListViewArrayList.add(requestListView);
