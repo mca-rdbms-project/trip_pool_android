@@ -14,5 +14,7 @@
     <color name="iron">#CCCCCC</color>
     <color name="primary">#E43F3F</color>
 
+    <color name="transparent">#00555555</color>
+
     <color name="navyblue">#0077e6</color>
 </resources>

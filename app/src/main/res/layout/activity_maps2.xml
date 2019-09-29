@@ -8,39 +8,40 @@
     tools:context=".MapsActivity2"
     android:orientation="vertical">
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:id="@+id/linearlayout">
+        >
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/transparent"
             android:orientation="vertical"
-            android:alpha="0.5">
+            android:id="@+id/linearlayout">
 
             <fragment
                 android:id="@+id/etOrigin"
                 android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                />
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp" />
 
             <fragment
                 android:id="@+id/etDestination"
                 android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
-                />
+                android:layout_marginBottom="20dp" />
         </LinearLayout>
 
         <fragment
@@ -50,6 +51,20 @@
             android:layout_height="match_parent" />
 
     </LinearLayout>
+
+
+    <com.skyfishjy.library.RippleBackground
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ripple_bg"
+        app:rb_color="@color/quantum_googgreen"
+        app:rb_radius="40dp"
+        app:rb_rippleAmount="6"
+        app:rb_duration="5000"
+        app:rb_scale="8"
+        android:layout_gravity="center"/>
+
+
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/bottom_sheet"
@@ -75,12 +90,17 @@
             android:layout_height="55dp"
             android:orientation="horizontal">
 
+
+
+
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="35dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="5dp"
                 android:src="@drawable/ic_distance" />
+
+
 
             <TextView
                 android:id="@+id/tvDistance"

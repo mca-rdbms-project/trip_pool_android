@@ -123,8 +123,8 @@ public class Registration extends AppCompatActivity {
         awesomeValidation.addValidation(this, R.id.f_name, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.nameerror);
         awesomeValidation.addValidation(this, R.id.l_name, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.nameerror);
         awesomeValidation.addValidation(this, R.id.email, Patterns.EMAIL_ADDRESS, R.string.emailerror);
-        awesomeValidation.addValidation(this, R.id.mno, "^[2-9]{5}[0-9]{5}$", R.string.mobileerror);
-
+        awesomeValidation.addValidation(this, R.id.mno, "^[0-9]{3}[0-9]{7}$", R.string.mobileerror);
+        awesomeValidation.addValidation(this, R.id.password, "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#$^+=!*()@%&]).{8,10}$", R.string.passerror);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -162,7 +162,7 @@ public class Registration extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (awesomeValidation.validate()) {
+                if (awesomeValidation.validate()){
 
                     if (_usertype.getSelectedItem().toString().trim().equals("Select City")) {
                         Toast.makeText(Registration.this, "Please Select a City", Toast.LENGTH_SHORT).show();}
@@ -193,9 +193,6 @@ public class Registration extends AppCompatActivity {
                                 _gender.getSelectedItem().toString(),
                                 _password.getText().toString());
 
-                        Toast.makeText(getApplicationContext(), "Successfully registered", Toast.LENGTH_SHORT).show();
-                        //finish();
-
                     }
 
                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
@@ -216,7 +213,7 @@ public class Registration extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         // Disable going back to the MainActivity
-        moveTaskToBack(true);
+        moveTaskToBack(false);
     }
 
     //spinner population for city
@@ -372,7 +369,7 @@ public class Registration extends AppCompatActivity {
         mProgress = new ProgressDialog(Registration.this,
                 R.style.AppTheme_Dark_Dialog);
         mProgress.setIndeterminate(true);
-        mProgress.setMessage("Creating Account...");
+        mProgress.setMessage("Creating Account");
         mProgress.show();
 
 
@@ -383,7 +380,7 @@ public class Registration extends AppCompatActivity {
                     @Override
                     public void accept(String s) throws Exception {
                         mProgress.dismiss();
-                        Toast.makeText(Registration.this, "Your Registration is successful" + s, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Registration.this, "You Account Is Created" + s, Toast.LENGTH_SHORT).show();
 
                     }
                 }));

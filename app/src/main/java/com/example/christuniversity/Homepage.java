@@ -1,10 +1,10 @@
 package com.example.christuniversity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -38,6 +38,7 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
     private String uid1;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private Retrofit retrofit = RetrofitClient.getInstance();
+    private ProgressDialog mProgress;
 
 
     @Override
@@ -68,6 +69,11 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
         _driver.setOnClickListener(this);
 
         _nv = (NavigationView)findViewById(R.id.nv);
+
+        /*TextView _username = (TextView)findViewById(R.id.username);
+        _username.setText(uid1);
+*/
+
         _nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -79,6 +85,8 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
                         //Toast.makeText(Homepage.this,PaymentActivity.class);
                         intent = new Intent(Homepage.this, PaymentActivity.class);
                         startActivity(intent);
+                        finish();
+                        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                         break;
                     /*case R.id.booking:
                         intent = new Intent(Homepage.this, BookingActivity.class);
@@ -88,6 +96,8 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
                         intent = new Intent(Homepage.this, RequestrideActivity.class);
                         senduserid(uid1);
                         startActivity(intent);
+                        finish();
+                        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                         break;
                     /*case R.id.offer:
                         intent = new Intent(Homepage.this, OfferActivity.class);
@@ -96,6 +106,7 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
                     case R.id.help:
                         intent = new Intent(Homepage.this, HelpActivity.class);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                         break;
                     case R.id.logout:
                         session.logoutUser();
@@ -130,15 +141,25 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
         {
             case R.id.passenger : intent=new Intent(this,PermissionsActivity.class);
                 startActivity(intent);
+                finish();
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 break;
 
             case R.id.driver : intent=new Intent(this,PermissionsActivity1.class);
                 startActivity(intent);
+                finish();
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 break;
         }
     }
 
     private void senduserid(final String user_id) {
+
+        mProgress = new ProgressDialog(Homepage.this,
+                R.style.AppTheme_Dark_Dialog);
+        mProgress.setIndeterminate(true);
+        mProgress.setMessage("Searching for passenger...");
+        mProgress.show();
 
         compositeDisposable.add(myAPI.senduserid(user_id)
                 .subscribeOn(Schedulers.io())
@@ -146,11 +167,8 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        //JSONObject obj1 = new JSONObject(s);
-                        //tid = obj1.optString("trip_id");
-
-                        //mProgress.dismiss();
-                        Toast.makeText(Homepage.this, "Your Registration is successful" + s, Toast.LENGTH_SHORT).show();
+                        mProgress.dismiss();
+                        //Toast.makeText(Homepage.this, "Your Registration is successful" + s, Toast.LENGTH_SHORT).show();
 
                     }
                 }));

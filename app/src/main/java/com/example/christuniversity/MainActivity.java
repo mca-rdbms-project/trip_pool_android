@@ -115,14 +115,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             mProgress.dismiss();
                             session.createLoginSession(obj1.optString("user_id"));
                             Intent int1 = new Intent(MainActivity.this, Homepage.class);
-                            //obj1.optString("user_id");
-                            //obj1.putOpt("user_id", obj1);
                             startActivity(int1);
+                            Toast.makeText(MainActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
                             finish();
+                            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
                         }
-                        else
+                        else{
                             mProgress.dismiss();
-                        Toast.makeText(MainActivity.this, "Invalid Username or Password", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Invalid Username or Password", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }));
 

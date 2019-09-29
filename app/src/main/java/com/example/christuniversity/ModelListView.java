@@ -2,7 +2,7 @@ package com.example.christuniversity;
 
 public class ModelListView {
 
-    private String name,time,v_details,rules,distance,mobile,trip_id;
+    private String name,time,v_details,rules,date,mobile,trip_id;
 
 
     public String getName() {
@@ -33,11 +33,11 @@ public class ModelListView {
         this.time = time;
     }
 
-    public String getdistance() {
-        return distance;
+    public String getdate() {
+        return date;
     }
-    public void setdistance(String distance) {
-        this.distance = distance;
+    public void setdate(String date) {
+        this.date = date;
     }
 
     public String getmobile() {

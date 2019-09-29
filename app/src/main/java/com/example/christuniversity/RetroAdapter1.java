@@ -80,8 +80,8 @@ public class RetroAdapter1 extends BaseAdapter {
         holder.iv.setImageResource(R.drawable.kyc);
         holder.tvname.setText("Name: "+dataModelArrayList.get(position).getName());
         holder.tvmobile.setText("Mobile: "+dataModelArrayList.get(position).getmobile());
-        //holder.tvseats.setText("Mobile: "+dataModelArrayList.get(position).getseats());
         holder.tvcollege.setText("College: "+dataModelArrayList.get(position).getcollege());
+        holder.tvseats.setText("Seats: "+dataModelArrayList.get(position).getseats());
         holder.tvrequest_id.setText("request_id: "+dataModelArrayList.get(position).getrequest_id());
 
         //holder.btndecline.setOnClickListener(onAcceptListener(position, holder));

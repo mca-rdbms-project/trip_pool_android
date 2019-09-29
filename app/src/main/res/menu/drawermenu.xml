@@ -6,7 +6,7 @@
 
     <item android:title="Bookings" android:icon="@drawable/booking" android:id="@+id/booking"/>
 
-    <item android:title="KYC" android:icon="@drawable/kyc" android:id="@+id/kyc"/>
+    <item android:title="Passenger Request" android:icon="@drawable/pssenger_rqst" android:id="@+id/kyc"/>
 
     <item android:title="Offers" android:icon="@drawable/offer" android:id="@+id/offer"/>
 

@@ -53,9 +53,9 @@ public class Session {
     // User name (make variable public to access from outside)
     public static final String KEY_NAME = "userid";
 
-    /*// Email address (make variable public to access from outside)
-    public static final String KEY_EMAIL = "email";
-*/
+    //Email address (make variable public to access from outside)
+    //public static final String KEY_EMAIL = "email";
+
     // Constructor
     public Session(Context context){
         this._context = context;
@@ -74,7 +74,6 @@ public class Session {
 
         // Storing name in pref
         editor.putString(KEY_NAME, usename);
-
 
 
         // commit changes
@@ -119,9 +118,6 @@ public class Session {
         HashMap<String, String> user = new HashMap<String, String>();
         // user name
         user.put("",pref.getString(KEY_NAME, null));
-
-        // user email id
-        //user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
 
         // return user
         return user;

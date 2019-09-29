@@ -60,7 +60,7 @@
             android:layout_height="match_parent"
             android:drawableStart="@drawable/login"
             android:drawableLeft="@drawable/login"
-            android:inputType="text"
+            android:inputType="phone"
             android:padding="16dp"
             android:textColor="@color/login_form_details_medium" />
     </com.google.android.material.textfield.TextInputLayout>

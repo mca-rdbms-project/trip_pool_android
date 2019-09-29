@@ -62,7 +62,7 @@
 
 
     <string name="nameerror">Enter a Valid Name</string>
-    <string name="passerror">Enter a Valid Password</string>
+    <string name="passerror">A password must contain a digit, lowercase, uppercase, special character and at least 6 characters</string>
     <string name="emailerror">Enter a Valid Email</string>
     <string name="mobileerror">Enter a Valid Mobile Number</string>
     <string name="modelerror">Enter a Valid Vehicle model</string>

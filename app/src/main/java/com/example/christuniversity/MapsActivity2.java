@@ -7,6 +7,7 @@ import android.content.IntentSender;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.example.christuniversity.Modules.DirectionFinder;
 import com.example.christuniversity.Modules.DirectionFinderListener;
 import com.example.christuniversity.Modules.Route;
@@ -51,6 +54,8 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.common.collect.Range;
+import com.skyfishjy.library.RippleBackground;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -87,6 +92,8 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
     PlacesClient placesClient;
     private String origin1,destination1;
     public EditText _seats;
+    private RippleBackground rippleBackground;
+    private AwesomeValidation awesomeValidation;
 
 
     INodeJs myAPI;
@@ -102,6 +109,9 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_maps2);
 
         session = new Session(MapsActivity2.this);
+
+        rippleBackground = findViewById(R.id.ripple_bg);
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
         Places.initialize(getApplicationContext(), "AIzaSyBSjMmeNnPp00VQhtalS1czrRCYf2ATYLg");
 
@@ -154,6 +164,8 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         btnFindPath = (Button) findViewById(R.id.btnFindPath);
         _seats = (EditText) findViewById(R.id.seats);
 
+        awesomeValidation.addValidation(this, R.id.seats, Range.closed(1, 6), R.string.seaterror);
+
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), "AIzaSyBSjMmeNnPp00VQhtalS1czrRCYf2ATYLg");
         }
@@ -204,15 +216,34 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         btnFindPath.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendRequest();
 
-                passengerinfo(dateString, timeString,
-                        origin1,
-                        destination1, _seats.getText().toString());
+                    sendRequest();
 
-                Intent intent = new Intent(MapsActivity2.this, Passenger_ride_list.class);
-                intent.putExtra("seats", _seats.getText().toString());
-                startActivity(intent);
+
+                    if (awesomeValidation.validate()) {
+                        rippleBackground.startRippleAnimation();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                rippleBackground.stopRippleAnimation();
+
+                                passengerinfo(dateString, timeString,
+                                        origin1,
+                                        destination1, _seats.getText().toString());
+
+                                Intent intent = new Intent(MapsActivity2.this, Passenger_ride_list.class);
+                                intent.putExtra("seats", _seats.getText().toString());
+                                startActivity(intent);
+                                finish();
+                                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
+                            }
+                        }, 3000);
+                    }
+
+
+
+
             }
         });
 
@@ -220,6 +251,13 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MapsActivity2.this);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(),Homepage.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -234,13 +272,14 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
 
     private void passengerinfo(final String ddate, final String ttime, final String etOrigin, final String etDestination, final String seats) {
 
+
         compositeDisposable.add(myAPI.passengerinfo(ddate, ttime, etOrigin, etDestination, seats)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        Toast.makeText(MapsActivity2.this, "Your Request is successful" + s, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MapsActivity2.this, "Your Request is successful", Toast.LENGTH_SHORT).show();
 
                     }
                 }));
@@ -248,17 +287,8 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
     }
 
     private void sendRequest() {
-        /*String origin = etOrigin.getText().toString();
-        String destination = etDestination.getText().toString();
-        if (origin.isEmpty()) {
-            Toast.makeText(this, "Please enter origin address!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (destination.isEmpty()) {
-            Toast.makeText(this, "Please enter destination address!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-*/
+
+
         try {
             new DirectionFinder(this, origin1, destination1).execute();
         } catch (UnsupportedEncodingException e) {
@@ -322,8 +352,6 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
 
     @Override
     public void onDirectionFinderStart() {
-        progressDialog = ProgressDialog.show(this, "Please wait.",
-                "Finding direction..!", true);
 
         if (originMarkers != null) {
             for (Marker marker : originMarkers) {
@@ -347,7 +375,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
 
     @Override
     public void onDirectionFinderSuccess(List<Route> routes) {
-        progressDialog.dismiss();
+
         polylinePaths = new ArrayList<>();
         originMarkers = new ArrayList<>();
         destinationMarkers = new ArrayList<>();

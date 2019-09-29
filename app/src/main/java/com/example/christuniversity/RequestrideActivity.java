@@ -1,5 +1,6 @@
 package com.example.christuniversity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,6 +55,7 @@ public class RequestrideActivity extends AppCompatActivity {
     private TextView trip_id;
     private Toolbar toolbar;
     TextView tvrequest_id;
+    private ProgressDialog mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,11 +224,9 @@ public class RequestrideActivity extends AppCompatActivity {
                     //modelListView.setImgURL(dataobj.getString("imgURL"));
                     requestListView.setName(dataobj.getString("first_name"));
                     requestListView.setmobile(dataobj.getString("mobile"));
-                    //requestListView.setseats(dataobj.getString("seats"));
                     requestListView.setcollege(dataobj.getString("college"));
+                    requestListView.setseats(dataobj.getString("seats"));
                     requestListView.setrequest_id(dataobj.getString("req_id"));
-                    // request_id need to be done.
-                    //tid=dataobj.getString("trip_id");
 
                     requestListViewArrayList.add(requestListView);
 
@@ -236,7 +236,7 @@ public class RequestrideActivity extends AppCompatActivity {
                 listView.setAdapter(retroAdapter1);
 
             }else {
-                Toast.makeText(RequestrideActivity.this, obj.optString("message")+"", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RequestrideActivity.this, "No Passenger Request", Toast.LENGTH_SHORT).show();
             }
 
         } catch (JSONException e) {
@@ -248,17 +248,7 @@ public class RequestrideActivity extends AppCompatActivity {
 
     private void send_accept_requestid(final String user_id, final String request_id) {
 
-        //_btn_login.setEnabled(false);
 
-       /* mProgress = new ProgressDialog(MainActivity.this,
-                R.style.AppTheme_Dark_Dialog);
-        mProgress.setIndeterminate(true);
-        //mProgress.setTitle("Processing...");
-        mProgress.setMessage("Authenticating");
-        //mProgress.setCancelable(false);
-        mProgress.show();
-
-*/
 
         compositeDisposable.add(myAPI.send_accept_requestid(user_id,request_id)
                 .subscribeOn(Schedulers.io())
@@ -266,11 +256,8 @@ public class RequestrideActivity extends AppCompatActivity {
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        //JSONObject obj1 = new JSONObject(s);
-                        //tid = obj1.optString("trip_id");
 
-                        //mProgress.dismiss();
-                        Toast.makeText(RequestrideActivity.this, "Your Registration is successful" + s, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RequestrideActivity.this, "Ride Request Accepted", Toast.LENGTH_LONG).show();
 
                     }
                 }));
@@ -279,29 +266,13 @@ public class RequestrideActivity extends AppCompatActivity {
 
     private void send_decline_requestid(final String user_id, final String request_id) {
 
-        //_btn_login.setEnabled(false);
-
-       /* mProgress = new ProgressDialog(MainActivity.this,
-                R.style.AppTheme_Dark_Dialog);
-        mProgress.setIndeterminate(true);
-        //mProgress.setTitle("Processing...");
-        mProgress.setMessage("Authenticating");
-        //mProgress.setCancelable(false);
-        mProgress.show();
-
-*/
-
         compositeDisposable.add(myAPI.send_decline_requestid(user_id,request_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        //JSONObject obj1 = new JSONObject(s);
-                        //tid = obj1.optString("trip_id");
-
-                        //mProgress.dismiss();
-                        Toast.makeText(RequestrideActivity.this, "Your Registration is successful" + s, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RequestrideActivity.this, "Ride Request Declined", Toast.LENGTH_SHORT).show();
 
                     }
                 }));

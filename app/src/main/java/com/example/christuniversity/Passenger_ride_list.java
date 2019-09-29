@@ -1,5 +1,6 @@
 package com.example.christuniversity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,6 +50,7 @@ public class Passenger_ride_list extends AppCompatActivity {
     private String tid,uid1,seats;
     private TextView trip_id;
     private Toolbar toolbar;
+    private ProgressDialog mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,17 +120,15 @@ public class Passenger_ride_list extends AppCompatActivity {
 
     private void requestinfo(final String user_id, final String trip_id, final String seat) {
 
-        //_btn_login.setEnabled(false);
-
-       /* mProgress = new ProgressDialog(MainActivity.this,
+        mProgress = new ProgressDialog(Passenger_ride_list.this,
                 R.style.AppTheme_Dark_Dialog);
         mProgress.setIndeterminate(true);
         //mProgress.setTitle("Processing...");
-        mProgress.setMessage("Authenticating");
+        mProgress.setMessage("Waiting for Rider To Accept");
         //mProgress.setCancelable(false);
         mProgress.show();
 
-*/
+
 
         compositeDisposable.add(myAPI.requestinfo(user_id,trip_id,seat)
                 .subscribeOn(Schedulers.io())
@@ -139,8 +139,8 @@ public class Passenger_ride_list extends AppCompatActivity {
                         //JSONObject obj1 = new JSONObject(s);
                         //tid = obj1.optString("trip_id");
 
-                        //mProgress.dismiss();
-                        Toast.makeText(Passenger_ride_list.this, "Your Registration is successful" + s, Toast.LENGTH_SHORT).show();
+                        mProgress.dismiss();
+                        Toast.makeText(Passenger_ride_list.this, "Your Request Is Been Accept" + s, Toast.LENGTH_SHORT).show();
 
                     }
                 }));
@@ -171,9 +171,12 @@ public class Passenger_ride_list extends AppCompatActivity {
                         String jsonresponse = response.body().toString();
                         writeListView(jsonresponse);
 
-                    } else {
+                    } else if(response.body().isEmpty()){
 
-
+                        Toast.makeText(Passenger_ride_list.this, "No Records To Display", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(Passenger_ride_list.this, MapsActivity2.class);
+                        startActivity(intent);
+                        finish();
                         //Log.i("onEmptyResponse", "Returned empty response");//Toast.makeText(getContext(),"Nothing returned",Toast.LENGTH_LONG).show();
                     }
                 }
@@ -206,7 +209,7 @@ public class Passenger_ride_list extends AppCompatActivity {
                     modelListView.settime(dataobj.getString("time"));
                     modelListView.setv_details(dataobj.getString("v_details"));
                     modelListView.setrules(dataobj.getString("rules"));
-                    //modelListView.setdistance(dataobj.getString("distance"));
+                    modelListView.setdate(dataobj.getString("date"));
                     modelListView.setmobile(dataobj.getString("mobile"));
                     modelListView.settrip_id(dataobj.getString("trip_id"));
                     //tid=dataobj.getString("trip_id");
@@ -219,7 +222,7 @@ public class Passenger_ride_list extends AppCompatActivity {
                 listView.setAdapter(retroAdapter);
 
             }else {
-                Toast.makeText(Passenger_ride_list.this, obj.optString("message")+"", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Passenger_ride_list.this, "No Records To Display", Toast.LENGTH_SHORT).show();
             }
 
         } catch (JSONException e) {

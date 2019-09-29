@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
@@ -35,7 +35,7 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:id="@+id/name"
@@ -43,7 +43,7 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/mobile"
             android:text="jkhjvgggv"/>
@@ -51,14 +51,21 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/college_name"
             android:text="jkhjvgggv"/>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/seats"
+            android:text="jkhjvgggv"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/request_id"
             android:text="jkhjvgggv"
@@ -106,7 +113,8 @@
         android:weightSum="3"
         android:height="@dimen/list_item_height"
         android:paddingLeft="@dimen/list_item_padding_sides"
-        android:paddingRight="@dimen/list_item_padding_sides">
+        android:paddingRight="@dimen/list_item_padding_sides"
+        android:background="@color/common_google_signin_btn_text_dark_disabled">
 
         <TextView
             android:layout_width="0dp"

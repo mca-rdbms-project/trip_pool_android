@@ -22,6 +22,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
@@ -63,7 +64,6 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.google.common.collect.Range;
 
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -115,6 +115,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int mYear, mMonth, mDay, mHour, mMinute;
 
     private AwesomeValidation awesomeValidation;
+    private ProgressDialog mProgress;
+    private Toolbar toolbar;
+
 
     INodeJs myAPI;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -133,6 +136,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         session = new Session(MapsActivity.this);
 
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -144,7 +149,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         myAPI = retrofit.create(INodeJs.class);
 
 
-        Thread thread = new Thread()
+        /*Thread thread = new Thread()
         {
             @Override
             public  void run(){
@@ -178,7 +183,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         };
         thread.start();
-
+*/
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
         _v_model = (EditText) findViewById(R.id.v_model);
@@ -326,7 +331,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         awesomeValidation.addValidation(this, R.id.v_model, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.modelerror);
         awesomeValidation.addValidation(this, R.id.v_color, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.colorerror);
-        //awesomeValidation.addValidation(this, R.id.v_no, "^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$", R.string.vnoerror);
+        awesomeValidation.addValidation(this, R.id.v_no, "^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$", R.string.vnoerror);
         awesomeValidation.addValidation(this, R.id.seats, Range.closed(1, 6), R.string.seaterror);
 
 
@@ -362,8 +367,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     else {
                         driverinfo(_ride_date.getText().toString(),
                                 _ride_time.getText().toString(),
-                                //etOrigin.,
-                                //etDestination.getText().toString(),
                                 origin1,destination1,
                                 _vehicle_type.getSelectedItem().toString(),
                                 _seats.getText().toString(),
@@ -372,16 +375,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 _v_no.getText().toString(),
                                 uid1,r1, r2, r3, r4, r5);
                     }
+
+                    Intent intent = new Intent(getApplicationContext(),Homepage.class);
+                    startActivity(intent);
+                    finish();
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
                 }
+
             }
         });
 
         mapView = mapFragment.getView();
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MapsActivity.this);
-        //Places.initialize(MapsActivity.this, "AIzaSyBSjMmeNnPp00VQhtalS1czrRCYf2ATYLg");
-        //placesClient = Places.createClient(this);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(),Homepage.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     @Override
@@ -396,13 +412,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void driverinfo(final String ddate, final String ttime, final String etOrigin, final String etDestination, final String vehicle_type, final String seats, final String v_model, final String v_color, final String v_no, final String user_id, final String r1, final String r2, final String r3, final String r4, final String r5) {
 
+        mProgress = new ProgressDialog(MapsActivity.this,
+                R.style.AppTheme_Dark_Dialog);
+        mProgress.setIndeterminate(true);
+        //mProgress.setTitle("Processing...");
+        mProgress.setMessage("Posting The Ride");
+        //mProgress.setCancelable(false);
+        mProgress.show();
+
         compositeDisposable.add(myAPI.driverinfo(ddate, ttime, etOrigin, etDestination, vehicle_type, seats, v_model, v_color, v_no, user_id, r1, r2, r3, r4, r5)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        Toast.makeText(MapsActivity.this, "Your Request is successful"+s, Toast.LENGTH_SHORT).show();
+                        mProgress.dismiss();
+                        Toast.makeText(MapsActivity.this, "The Ride Is Posted"+s, Toast.LENGTH_SHORT).show();
 
                     }
                 }));

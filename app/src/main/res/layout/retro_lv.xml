@@ -29,46 +29,52 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:id="@+id/name"
             android:text="dsffjfdndndn"/>
+
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:id="@+id/time"
-            android:text="jkhjvgggv"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/v_details"
             android:text="jkhjvgggv"/>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/rules"
             android:text="jkhjvgggv"/>
+
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:id="@+id/distance"
-            android:text="jkhjvgggv"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/mobile"
             android:text="jkhjvgggv"/>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/date"
+            android:text="jkhjvgggv"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/time"
+            android:text="jkhjvgggv"/>
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/trip_id"
             android:text="jkhjvgggv"/>
