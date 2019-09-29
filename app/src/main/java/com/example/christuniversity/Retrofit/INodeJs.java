@@ -27,7 +27,7 @@ public interface INodeJs {
     @POST("do-offer-trip")
     @FormUrlEncoded
     Observable<String> driverinfo(@Field("date") String date, @Field("time") String time, @Field("origin") String f_location, @Field("destination") String to_location, @Field("vehicle") String v_type, @Field("seats") String seats,
-                                  @Field("v_model") String v_model, @Field("v_color") String v_color, @Field("v_no") String v_no, @Field("user") String user_id, @Field("rule1") String rule1,
+                                  @Field("v_model") String v_model, @Field("v_color") String v_color, @Field("v_no") String v_no, @Field("user") String user_id, @Field("amount") String amount, @Field("rule1") String rule1,
                                   @Field("rule2") String rule2, @Field("rule3") String rule3, @Field("rule4") String rule4, @Field("rule5") String rule5);
 
     @POST("find-trip")

@@ -245,6 +245,16 @@
 
         </LinearLayout>
 
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_margin="15dp"
+                android:padding="10dp"
+                android:id="@+id/amount"
+                android:hint="Enter The Amount"
+                android:inputType="phone"
+                android:background="@drawable/rounded_edittext"/>
+
             <CheckBox
                 android:id="@+id/rule1"
                 android:layout_width="wrap_content"

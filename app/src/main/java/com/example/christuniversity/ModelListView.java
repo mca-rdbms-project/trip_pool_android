@@ -2,7 +2,7 @@ package com.example.christuniversity;
 
 public class ModelListView {
 
-    private String name,time,v_details,rules,date,mobile,trip_id;
+    private String name,time,v_details,rules,amount,mobile,trip_id;
 
 
     public String getName() {
@@ -33,11 +33,11 @@ public class ModelListView {
         this.time = time;
     }
 
-    public String getdate() {
-        return date;
+    public String getamount() {
+        return amount;
     }
-    public void setdate(String date) {
-        this.date = date;
+    public void setamount(String amount) {
+        this.amount = amount;
     }
 
     public String getmobile() {

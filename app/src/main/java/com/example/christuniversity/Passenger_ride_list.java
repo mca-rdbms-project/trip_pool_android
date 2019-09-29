@@ -171,12 +171,7 @@ public class Passenger_ride_list extends AppCompatActivity {
                         String jsonresponse = response.body().toString();
                         writeListView(jsonresponse);
 
-                    } else if(response.body().isEmpty()){
-
-                        Toast.makeText(Passenger_ride_list.this, "No Records To Display", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(Passenger_ride_list.this, MapsActivity2.class);
-                        startActivity(intent);
-                        finish();
+                    } else {
                         //Log.i("onEmptyResponse", "Returned empty response");//Toast.makeText(getContext(),"Nothing returned",Toast.LENGTH_LONG).show();
                     }
                 }
@@ -209,10 +204,9 @@ public class Passenger_ride_list extends AppCompatActivity {
                     modelListView.settime(dataobj.getString("time"));
                     modelListView.setv_details(dataobj.getString("v_details"));
                     modelListView.setrules(dataobj.getString("rules"));
-                    modelListView.setdate(dataobj.getString("date"));
+                    modelListView.setamount(dataobj.getString("amount"));
                     modelListView.setmobile(dataobj.getString("mobile"));
                     modelListView.settrip_id(dataobj.getString("trip_id"));
-                    //tid=dataobj.getString("trip_id");
 
                     modelListViewArrayList.add(modelListView);
 

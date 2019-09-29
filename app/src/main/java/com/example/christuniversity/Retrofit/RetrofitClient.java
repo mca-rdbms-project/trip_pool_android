@@ -8,6 +8,7 @@ public class
 RetrofitClient {
     private static Retrofit instance;
 
+
     public static Retrofit getInstance()
     {
         if(instance==null)

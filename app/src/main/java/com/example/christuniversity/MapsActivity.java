@@ -83,7 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //private EditText etOrigin;
 
     private AutocompleteSupportFragment etOrigin, etDestination;
-    private EditText etDest,_ride_time,_ride_date;
+    private EditText etDest,_ride_time,_ride_date, _amount;
     private List<Marker> originMarkers = new ArrayList<>();
     private List<Marker> destinationMarkers = new ArrayList<>();
     private List<Polyline> polylinePaths = new ArrayList<>();
@@ -149,47 +149,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         myAPI = retrofit.create(INodeJs.class);
 
 
-        /*Thread thread = new Thread()
-        {
-            @Override
-            public  void run(){
-                try{
-                    while (!isInterrupted()){
-                        Thread.sleep(1000);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                //_display_date = (TextView) findViewById(R.id.tdate);
-                                long date = System.currentTimeMillis();
-                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                                dateString = sdf.format(date);
-                                //_display_date.setText(dateString);
-                                //_display_date.setAlpha(0.0f);
 
-                                //_display_time = (TextView) findViewById(R.id.ttime);
-                                SimpleDateFormat stf = new SimpleDateFormat("hh:mm a");
-                                timeString = stf.format(date);
-                                //_display_time.setText(timeString);
-                                //_display_time.setAlpha(0.0f);
-
-
-                            }
-                        });
-                    }
-                }
-                catch (InterruptedException e){
-
-                }
-            }
-        };
-        thread.start();
-*/
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
         _v_model = (EditText) findViewById(R.id.v_model);
         _v_color = (EditText) findViewById(R.id.v_color);
         _v_no = (EditText) findViewById(R.id.v_no);
         _seats = (EditText) findViewById(R.id.seats);
+        _amount = (EditText) findViewById(R.id.amount);
         _rule1 = (CheckBox) findViewById(R.id.rule1);
         _rule2 = (CheckBox) findViewById(R.id.rule2);
         _rule3 = (CheckBox) findViewById(R.id.rule3);
@@ -373,7 +340,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 _v_model.getText().toString(),
                                 _v_color.getText().toString(),
                                 _v_no.getText().toString(),
-                                uid1,r1, r2, r3, r4, r5);
+                                uid1, _amount.getText().toString(), r1, r2, r3, r4, r5);
                     }
 
                     Intent intent = new Intent(getApplicationContext(),Homepage.class);
@@ -410,7 +377,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    private void driverinfo(final String ddate, final String ttime, final String etOrigin, final String etDestination, final String vehicle_type, final String seats, final String v_model, final String v_color, final String v_no, final String user_id, final String r1, final String r2, final String r3, final String r4, final String r5) {
+    private void driverinfo(final String ddate, final String ttime, final String etOrigin, final String etDestination, final String vehicle_type, final String seats, final String v_model, final String v_color, final String v_no, final String user_id, final String amount, final String r1, final String r2, final String r3, final String r4, final String r5) {
 
         mProgress = new ProgressDialog(MapsActivity.this,
                 R.style.AppTheme_Dark_Dialog);
@@ -420,7 +387,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //mProgress.setCancelable(false);
         mProgress.show();
 
-        compositeDisposable.add(myAPI.driverinfo(ddate, ttime, etOrigin, etDestination, vehicle_type, seats, v_model, v_color, v_no, user_id, r1, r2, r3, r4, r5)
+        compositeDisposable.add(myAPI.driverinfo(ddate, ttime, etOrigin, etDestination, vehicle_type, seats, v_model, v_color, v_no, user_id, amount, r1, r2, r3, r4, r5)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {

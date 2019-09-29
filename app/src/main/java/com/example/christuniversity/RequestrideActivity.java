@@ -38,6 +38,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import static com.paytm.pgsdk.easypay.manager.PaytmAssist.getContext;
+
 public class RequestrideActivity extends AppCompatActivity {
 
     private ListView listView;
@@ -54,7 +56,7 @@ public class RequestrideActivity extends AppCompatActivity {
     private String tid,uid1;
     private TextView trip_id;
     private Toolbar toolbar;
-    TextView tvrequest_id;
+    TextView tvrequest_id, list;
     private ProgressDialog mProgress;
 
     @Override
@@ -67,6 +69,7 @@ public class RequestrideActivity extends AppCompatActivity {
         uid = session.getUserDetails();
         uid1=uid.toString();
 
+        list = (TextView) findViewById(R.id.list);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -110,7 +113,7 @@ public class RequestrideActivity extends AppCompatActivity {
                                 LinearLayout linearLayoutChild = (LinearLayout) linearLayoutParent.getChildAt(1);
 
                                 // Getting the Country TextView
-                                tvrequest_id = (TextView) linearLayoutChild.getChildAt(3);
+                                tvrequest_id = (TextView) linearLayoutChild.getChildAt(4);
                                 //Toast.makeText(RequestrideActivity.this, tvrequest_id.getText().toString(), Toast.LENGTH_SHORT).show();
 
                                 // Getting the Country TextView
@@ -188,13 +191,19 @@ public class RequestrideActivity extends AppCompatActivity {
                 //Toast.makeText()
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
+                        list.setEnabled(false);
                         Log.i("onSuccess", response.body().toString());
 
                         String jsonresponse = response.body().toString();
                         writeListView(jsonresponse);
 
                     } else {
-                        Log.i("onEmptyResponse", "Returned empty response");//Toast.makeText(getContext(),"Nothing returned",Toast.LENGTH_LONG).show();
+
+
+                        list.setEnabled(true);
+                        Toast.makeText(getContext(),"Nothing To Show",Toast.LENGTH_LONG).show();
+
+                        //Log.i("onEmptyResponse", "Returned empty response");//Toast.makeText(getContext(),"Nothing returned",Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -247,8 +256,6 @@ public class RequestrideActivity extends AppCompatActivity {
 
 
     private void send_accept_requestid(final String user_id, final String request_id) {
-
-
 
         compositeDisposable.add(myAPI.send_accept_requestid(user_id,request_id)
                 .subscribeOn(Schedulers.io())

@@ -28,7 +28,7 @@ public class RetroAdapter1 extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return getCount();
+        return 1;
     }
     @Override
     public int getItemViewType(int position) {

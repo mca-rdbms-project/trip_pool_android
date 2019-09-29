@@ -11,11 +11,18 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nothing To Display"
+        android:layout_gravity="center"
+        android:textSize="20dp"
+        android:id="@+id/list"/>
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/lv"
-        android:layout_marginTop="10dp"
         android:divider = "@color/cardview_shadow_start_color"
         android:dividerHeight = "1dp"
         android:footerDividersEnabled = "false"

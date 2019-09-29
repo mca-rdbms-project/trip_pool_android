@@ -158,10 +158,9 @@ public class RetroAdapter extends BaseAdapter {
             holder.tvtime = (TextView) convertView.findViewById(R.id.time);
             holder.tvv_details = (TextView) convertView.findViewById(R.id.v_details);
             holder.tvrules = (TextView) convertView.findViewById(R.id.rules);
-            holder.tvdate = (TextView) convertView.findViewById(R.id.date);
             holder.tvmobile = (TextView) convertView.findViewById(R.id.mobile);
             holder.tvtrip_id = (TextView) convertView.findViewById(R.id.trip_id);
-            //holder.tvt_id = (TextView) convertView.findViewById(R.id.t_id);
+            holder.tvamount = (TextView) convertView.findViewById(R.id.amount);
 
             convertView.setTag(holder);
         }else {
@@ -175,10 +174,9 @@ public class RetroAdapter extends BaseAdapter {
         holder.tvtime.setText("Time: "+dataModelArrayList.get(position).gettime());
         holder.tvv_details.setText("Vehicle Details: "+dataModelArrayList.get(position).getv_details());
         holder.tvrules.setText("Rules: "+dataModelArrayList.get(position).getrules());
-        holder.tvdate.setText("Distance: "+dataModelArrayList.get(position).getdate());
         holder.tvmobile.setText("Mobile: "+dataModelArrayList.get(position).getmobile());
         holder.tvtrip_id.setText("trip_id: "+dataModelArrayList.get(position).gettrip_id());
-        //holder.tvt_id.setText("trip_id: "+dataModelArrayList.get(position).gettrip_id());
+        holder.tvamount.setText("Amount: "+dataModelArrayList.get(position).getamount());
 
         return convertView;
     }
@@ -186,7 +184,7 @@ public class RetroAdapter extends BaseAdapter {
     private class ViewHolder {
 
         protected TextView tvname, tvtime, tvv_details, tvrules, tvdistance, tvmobile, tvdate;
-        public TextView tvtrip_id, tvt_id;
+        public TextView tvtrip_id, tvamount;
         protected ImageView iv;
     }
 
