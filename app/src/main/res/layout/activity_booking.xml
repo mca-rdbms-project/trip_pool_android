@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fcfcfc"
+    android:orientation="vertical"
+    tools:context=".BookingActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
+
+
+    <ListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:divider="@color/cardview_shadow_start_color"
+        android:dividerHeight="2dp"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        />
+
+</LinearLayout>

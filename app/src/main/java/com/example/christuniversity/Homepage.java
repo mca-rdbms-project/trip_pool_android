@@ -87,15 +87,18 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
                 {
                     case R.id.payment:
                         //Toast.makeText(Homepage.this,PaymentActivity.class);
-                        intent = new Intent(Homepage.this, PaymentActivity.class);
+                        intent = new Intent(Homepage.this, PaymentActivity1.class);
                         startActivity(intent);
                         finish();
                         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                         break;
-                    /*case R.id.booking:
+                    case R.id.booking:
                         intent = new Intent(Homepage.this, BookingActivity.class);
+                        senduserid(uid1);
                         startActivity(intent);
-                        break;*/
+                        finish();
+                        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                        break;
                     case R.id.kyc:
                         intent = new Intent(Homepage.this, RequestrideActivity.class);
                         senduserid(uid1);
@@ -103,10 +106,10 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
                         finish();
                         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                         break;
-                    /*case R.id.offer:
-                        intent = new Intent(Homepage.this, OfferActivity.class);
+                    case R.id.offer:
+                        intent = new Intent(Homepage.this, OfferedTripActivity.class);
                         startActivity(intent);
-                        break;*/
+                        break;
                     case R.id.help:
                         intent = new Intent(Homepage.this, HelpActivity.class);
                         startActivity(intent);

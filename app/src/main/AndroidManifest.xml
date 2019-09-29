@@ -21,7 +21,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".OtpActivity"></activity>
+        <activity android:name=".OfferedTripActivity"></activity>
+        <activity android:name=".PaymentActivity1" />
+        <activity android:name=".BookingActivity" />
+        <activity android:name=".OtpActivity" />
         <activity android:name=".RequestrideActivity" />
         <activity android:name=".HelpActivity" />
         <activity android:name=".RiderequestActivity" />

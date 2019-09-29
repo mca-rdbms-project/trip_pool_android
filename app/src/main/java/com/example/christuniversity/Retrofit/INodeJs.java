@@ -55,6 +55,13 @@ public interface INodeJs {
     @FormUrlEncoded
     Observable<String> send_decline_requestid(@Field("user_id") String user_id, @Field("request_id") String request_id);
 
+    @POST("get-passenger-trips")
+    @FormUrlEncoded
+    Observable<String> get_passenger_trip(@Field("user_id") String user_id);
+
+    @POST("get-rider-trips")
+    @FormUrlEncoded
+    Observable<String> get_rider_trip(@Field("user_id") String user_id);
 
     /*@POST("ride-request")
     @FormUrlEncoded
@@ -76,6 +83,11 @@ public interface INodeJs {
     @GET("view-requests")
     Call<String> getriderequest_listview();
 
+    @GET("view-passenger-trips")
+    Call<String> getpassenger_listview();
+
+    @GET("view-rider-trips")
+    Call<String> getrider_listview();
 
 
 
@@ -83,4 +95,5 @@ public interface INodeJs {
 
 
 
-    }
+
+}

@@ -125,7 +125,7 @@ public class RetroAdapter extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
 
-        return position;
+        return 1;
     }
 
     @Override
