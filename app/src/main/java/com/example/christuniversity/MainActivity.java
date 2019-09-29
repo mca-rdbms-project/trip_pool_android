@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             mProgress.dismiss();
                             session.createLoginSession(obj1.optString("user_id"));
                             Intent int1 = new Intent(MainActivity.this, Homepage.class);
+                            int1.putExtra("username", _username.getText().toString());
                             startActivity(int1);
                             Toast.makeText(MainActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
                             finish();

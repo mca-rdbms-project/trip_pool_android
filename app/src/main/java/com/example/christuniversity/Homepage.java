@@ -35,10 +35,11 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
     private NavigationView _nv;
     private Session session;
     private HashMap<String, String> uid;
-    private String uid1;
+    private String uid1,username;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private Retrofit retrofit = RetrofitClient.getInstance();
     private ProgressDialog mProgress;
+
 
 
     @Override
@@ -50,6 +51,8 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
         session.checkLogin();
         uid = session.getUserDetails();
         uid1=uid.toString();
+
+        username = getIntent().getExtras().getString("username");
 
         myAPI = retrofit.create(INodeJs.class);
 
@@ -69,9 +72,10 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
         _driver.setOnClickListener(this);
 
         _nv = (NavigationView)findViewById(R.id.nv);
+/*
 
-        /*TextView _username = (TextView)findViewById(R.id.username);
-        _username.setText(uid1);
+        TextView _username = (TextView)findViewById(R.id.username);
+        _username.setText(username);
 */
 
         _nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

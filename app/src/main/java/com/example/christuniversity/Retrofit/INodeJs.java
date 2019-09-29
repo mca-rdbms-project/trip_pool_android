@@ -15,6 +15,10 @@ public interface INodeJs {
                                     @Field("mno") String mno, @Field("city") String city, @Field("college") String college,
                                     @Field("user_type") String user_type, @Field("gender") String gender, @Field("password") String password);
 
+    @POST("check-otp")
+    @FormUrlEncoded
+    Observable<String> check_otp(@Field("mobile") String mobile, @Field("otp") String otp);
+
     /*@Multipart
     @POST("upload")
     Call<ResponseBody> postImage(@Part MultipartBody.Part image, @Part("upload") RequestBody name);

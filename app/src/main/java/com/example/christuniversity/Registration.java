@@ -195,10 +195,11 @@ public class Registration extends AppCompatActivity {
 
                     }
 
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    /*Intent intent = new Intent(getApplicationContext(),OtpActivity.class);
+                    intent.putExtra("mobile", _mno.getText().toString());
                     startActivity(intent);
                     finish();
-                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);*/
 
                 }
 
@@ -366,22 +367,35 @@ public class Registration extends AppCompatActivity {
     private void registerUser(final String f_name, final String m_name, final String l_name, final String email, final String mno, final String city, final String college, final String user_type, final String gender, final String password) {
 
 
-        mProgress = new ProgressDialog(Registration.this,
+        /*mProgress = new ProgressDialog(Registration.this,
                 R.style.AppTheme_Dark_Dialog);
         mProgress.setIndeterminate(true);
         mProgress.setMessage("Creating Account");
         mProgress.show();
 
-
+*/
         compositeDisposable.add(myAPI.registerUser(f_name, m_name, l_name, email, mno, city, college, user_type, gender, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        mProgress.dismiss();
-                        Toast.makeText(Registration.this, "You Account Is Created" + s, Toast.LENGTH_SHORT).show();
 
+                        JSONObject obj1 = new JSONObject(s);
+                        if (obj1.optString("status").equals("true")) {
+
+                            Intent intent = new Intent(getApplicationContext(),OtpActivity.class);
+                            intent.putExtra("mobile", _mno.getText().toString());
+                            startActivity(intent);
+                            finish();
+                            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                            //Toast.makeText(Registration.this, "You Account Is Created" + s, Toast.LENGTH_SHORT).show();
+                        }
+
+                        else
+                        {
+                            Toast.makeText(Registration.this, "Mobile Number Already Exist", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }));
     }

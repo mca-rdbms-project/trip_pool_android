@@ -56,7 +56,7 @@ public class RequestrideActivity extends AppCompatActivity {
     private String tid,uid1;
     private TextView trip_id;
     private Toolbar toolbar;
-    TextView tvrequest_id, list;
+    TextView tvrequest_id;
     private ProgressDialog mProgress;
 
     @Override
@@ -68,8 +68,6 @@ public class RequestrideActivity extends AppCompatActivity {
 
         uid = session.getUserDetails();
         uid1=uid.toString();
-
-        list = (TextView) findViewById(R.id.list);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -191,16 +189,13 @@ public class RequestrideActivity extends AppCompatActivity {
                 //Toast.makeText()
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        list.setEnabled(false);
+
                         Log.i("onSuccess", response.body().toString());
 
                         String jsonresponse = response.body().toString();
                         writeListView(jsonresponse);
 
                     } else {
-
-
-                        list.setEnabled(true);
                         Toast.makeText(getContext(),"Nothing To Show",Toast.LENGTH_LONG).show();
 
                         //Log.i("onEmptyResponse", "Returned empty response");//Toast.makeText(getContext(),"Nothing returned",Toast.LENGTH_LONG).show();

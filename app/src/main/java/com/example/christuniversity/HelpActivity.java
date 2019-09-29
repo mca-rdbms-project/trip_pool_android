@@ -18,7 +18,7 @@ public class HelpActivity extends AppCompatActivity {
         WebSettings settings = browser.getSettings();
         settings.setJavaScriptEnabled(true);
 
-        browser.loadUrl("https://github.com");
+        browser.loadUrl("http://3.17.147.186:3000/contact");
 
     }
 }

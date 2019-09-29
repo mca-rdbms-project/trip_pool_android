@@ -34,6 +34,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import static com.paytm.pgsdk.easypay.manager.PaytmAssist.getContext;
+
 public class Passenger_ride_list extends AppCompatActivity {
 
     private ListView listView;
@@ -76,7 +78,7 @@ public class Passenger_ride_list extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Passenger_ride_list.this, MapsActivity2.class);
+                Intent intent = new Intent(Passenger_ride_list.this, Homepage.class);
                 startActivity(intent);
                 finish();
             }
@@ -105,12 +107,16 @@ public class Passenger_ride_list extends AppCompatActivity {
                 LinearLayout linearLayoutChild = (LinearLayout ) linearLayoutParent.getChildAt(1);
 
                 // Getting the Country TextView
-                TextView tvCountry = (TextView) linearLayoutChild.getChildAt(6);
+                TextView tvCountry = (TextView) linearLayoutChild.getChildAt(5);
 
 
                 //Toast.makeText(getBaseContext(), tvCountry.getText().toString(), Toast.LENGTH_SHORT).show();
 
                 requestinfo(uid1,tvCountry.getText().toString(),seats);
+
+                Intent intent = new Intent(getApplicationContext(),Homepage.class);
+                startActivity(intent);
+                finish();
 
             }
         });
@@ -172,7 +178,7 @@ public class Passenger_ride_list extends AppCompatActivity {
                         writeListView(jsonresponse);
 
                     } else {
-                        //Log.i("onEmptyResponse", "Returned empty response");//Toast.makeText(getContext(),"Nothing returned",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(),"Nothing To Display",Toast.LENGTH_LONG).show();
                     }
                 }
             }
