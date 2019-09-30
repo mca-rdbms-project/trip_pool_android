@@ -47,6 +47,14 @@ public interface INodeJs {
     @FormUrlEncoded
     Observable<String> senduserid(@Field("user_id") String user_id);
 
+    @POST("find-passenger-requests")
+    @FormUrlEncoded
+    Observable<String> senduserid1(@Field("user_id") String user_id);
+
+    @POST("find-driver-trips")
+    @FormUrlEncoded
+    Observable<String> senduserid2(@Field("user_id") String user_id);
+
     @POST("accept-request")
     @FormUrlEncoded
     Observable<String> send_accept_requestid(@Field("user_id") String user_id, @Field("request_id") String request_id);

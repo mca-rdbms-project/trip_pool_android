@@ -172,15 +172,7 @@ public class Registration extends AppCompatActivity {
                         Toast.makeText(Registration.this, "Please Select a User Type", Toast.LENGTH_SHORT).show();
                     } else if (_gender.getSelectedItem().toString().trim().equals("Gender Type")) {
                         Toast.makeText(Registration.this, "Please Select a Gender Type", Toast.LENGTH_SHORT).show();
-                    } /*else if (mImageView.getDrawable() == null) {
-                        Toast.makeText(Registration.this, "Please Select a photo", Toast.LENGTH_SHORT).show();
-                    }*/
-
-                    /*else if (mBitmap != null)
-                    {
-                        multipartImageUpload();
                     }
-*/
                     else
                     {
                         registerUser(_fname.getText().toString(),

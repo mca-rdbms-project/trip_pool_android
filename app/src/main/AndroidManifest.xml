@@ -27,7 +27,6 @@
         <activity android:name=".OtpActivity" />
         <activity android:name=".RequestrideActivity" />
         <activity android:name=".HelpActivity" />
-        <activity android:name=".RiderequestActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
