@@ -195,7 +195,7 @@ public class BookingActivity extends AppCompatActivity {
                     JSONObject dataobj = dataArray.getJSONObject(i);
 
                     //modelListView.setImgURL(dataobj.getString("imgURL"));
-                    modelListView.setrequest_id(dataobj.getString("request_id"));
+                    modelListView.setrequest_id(dataobj.getString("req_id"));
                     modelListView.settime(dataobj.getString("time"));
                     modelListView.setorigin(dataobj.getString("origin"));
                     modelListView.setdestination(dataobj.getString("destination"));
