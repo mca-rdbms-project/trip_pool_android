@@ -395,7 +395,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     @Override
                     public void accept(String s) throws Exception {
                         mProgress.dismiss();
-                        Toast.makeText(MapsActivity.this, "The Ride Is Posted"+s, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MapsActivity.this, "The Ride Is Posted", Toast.LENGTH_SHORT).show();
 
                     }
                 }));
