@@ -52,7 +52,7 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
         uid = session.getUserDetails();
         uid1=uid.toString();
 
-        username = getIntent().getExtras().getString("username");
+        //username = getIntent().getExtras().getString("username");
 
         myAPI = retrofit.create(INodeJs.class);
 
