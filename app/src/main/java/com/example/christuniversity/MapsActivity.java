@@ -342,7 +342,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 _v_no.getText().toString(),
                                 uid1, _amount.getText().toString(), r1, r2, r3, r4, r5);
 
-                        Intent intent = new Intent(getApplicationContext(),Homepage.class);
+                        Intent intent = new Intent(MapsActivity.this, Homepage.class);
                         startActivity(intent);
                         finish();
                         //overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
