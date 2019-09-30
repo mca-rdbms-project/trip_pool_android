@@ -16,7 +16,9 @@
         android:layout_height="match_parent"
         android:id="@+id/lv"
         android:divider = "@color/cardview_shadow_start_color"
-        android:dividerHeight = "1dp"
+        android:dividerHeight = "2dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
         android:footerDividersEnabled = "false"
         android:headerDividersEnabled = "false"
         android:layout_weight="1"/>

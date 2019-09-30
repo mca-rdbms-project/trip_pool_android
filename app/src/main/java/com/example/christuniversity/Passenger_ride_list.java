@@ -114,7 +114,7 @@ public class Passenger_ride_list extends AppCompatActivity {
 
                 requestinfo(uid1,tvCountry.getText().toString(),seats);
 
-                Intent intent = new Intent(getApplicationContext(),Homepage.class);
+                Intent intent = new Intent(Passenger_ride_list.this,Homepage.class);
                 startActivity(intent);
                 finish();
 
