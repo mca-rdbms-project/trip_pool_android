@@ -63,13 +63,13 @@ public interface INodeJs {
     @FormUrlEncoded
     Observable<String> send_decline_requestid(@Field("user_id") String user_id, @Field("request_id") String request_id);
 
-    @POST("get-passenger-trips")
+    @POST("delete-passenger-request")
     @FormUrlEncoded
-    Observable<String> get_passenger_trip(@Field("user_id") String user_id);
+    Observable<String> get_passenger_trip(@Field("request_id") String request_id);
 
-    @POST("get-rider-trips")
+    @POST("delete-rider-trip")
     @FormUrlEncoded
-    Observable<String> get_rider_trip(@Field("user_id") String user_id);
+    Observable<String> get_rider_trip(@Field("trip_id") String trip_id);
 
     /*@POST("ride-request")
     @FormUrlEncoded

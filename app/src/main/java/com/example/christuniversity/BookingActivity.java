@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +57,7 @@ public class BookingActivity extends AppCompatActivity {
     private TextView trip_id;
     private Toolbar toolbar;
     private ProgressDialog mProgress;
+    private TextView tvrequest_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +104,20 @@ public class BookingActivity extends AppCompatActivity {
                             @Override
                             public void onDismiss(ListViewAdapter view, int position) {
 
-                                get_passenger_trip(uid1);
+                                View v = (View) listView.getChildAt(position);
+                                FrameLayout frameLayout = (FrameLayout) v;
+
+                                LinearLayout linearLayoutParent = (LinearLayout) frameLayout.getChildAt(0);
+
+                                // Getting the inner Linear Layout
+                                LinearLayout linearLayoutChild = (LinearLayout) linearLayoutParent.getChildAt(1);
+
+                                // Getting the Country TextView
+                                tvrequest_id = (TextView) linearLayoutChild.getChildAt(0);
+                                //Toast.makeText(RequestrideActivity.this, tvrequest_id.getText().toString(), Toast.LENGTH_SHORT).show();
+
+                                // Getting the Country TextView
+                                get_passenger_trip(tvrequest_id.getText().toString());
                                 retroAdapter.remove(position);
 
                             }
@@ -183,6 +199,7 @@ public class BookingActivity extends AppCompatActivity {
                     modelListView.settime(dataobj.getString("time"));
                     modelListView.setorigin(dataobj.getString("origin"));
                     modelListView.setdestination(dataobj.getString("destination"));
+                    modelListView.settrip_id(dataobj.getString("trip_id"));
                     modelListViewArrayList.add(modelListView);
 
                 }
@@ -200,9 +217,9 @@ public class BookingActivity extends AppCompatActivity {
 
     }
 
-    private void get_passenger_trip(final String user_id) {
+    private void get_passenger_trip(final String request_id) {
 
-        compositeDisposable.add(myAPI.get_passenger_trip(user_id)
+        compositeDisposable.add(myAPI.get_passenger_trip(request_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {

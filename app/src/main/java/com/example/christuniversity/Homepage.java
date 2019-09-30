@@ -175,7 +175,7 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        mProgress.dismiss();
+                        //mProgress.dismiss();
                         //Toast.makeText(Homepage.this, "Your Registration is successful" + s, Toast.LENGTH_SHORT).show();
 
                     }

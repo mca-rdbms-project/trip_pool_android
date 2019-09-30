@@ -1,7 +1,7 @@
 package com.example.christuniversity;
 
 public class ModelListView1 {
-    private String request_id,time,origin,destination;
+    private String request_id,time,origin,destination, trip_id;
 
 
     public String getrequest_id() {
@@ -30,6 +30,13 @@ public class ModelListView1 {
     }
     public void settime(String time) {
         this.time = time;
+    }
+
+    public String gettrip_id() {
+        return trip_id;
+    }
+    public void settrip_id(String trip_id) {
+        this.trip_id = trip_id;
     }
 
 

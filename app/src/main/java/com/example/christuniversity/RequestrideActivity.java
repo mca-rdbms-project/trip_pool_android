@@ -147,7 +147,7 @@ public class RequestrideActivity extends AppCompatActivity {
                     LinearLayout linearLayoutChild = (LinearLayout) linearLayoutParent.getChildAt(1);
 
                     // Getting the Country TextView
-                    tvrequest_id = (TextView) linearLayoutChild.getChildAt(3);
+                    tvrequest_id = (TextView) linearLayoutChild.getChildAt(4);
                     send_accept_requestid(uid1,tvrequest_id.getText().toString());
 
                 }

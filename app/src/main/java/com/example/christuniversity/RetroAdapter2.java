@@ -66,6 +66,7 @@ public class RetroAdapter2 extends BaseAdapter {
             holder.tvorigin = (TextView) convertView.findViewById(R.id.origin);
             holder.tvdestination = (TextView) convertView.findViewById(R.id.destination);
             holder.tvtime = (TextView) convertView.findViewById(R.id.time);
+            holder.tvtrip_id = (TextView) convertView.findViewById(R.id.trip_id);
 
             convertView.setTag(holder);
         }else {
@@ -79,6 +80,7 @@ public class RetroAdapter2 extends BaseAdapter {
         holder.tvtime.setText("Time: "+dataModelArrayList.get(position).gettime());
         holder.tvorigin.setText("Origin: "+dataModelArrayList.get(position).getorigin());
         holder.tvdestination.setText("Destination: "+dataModelArrayList.get(position).getdestination());
+        holder.tvtrip_id.setText("Destination: "+dataModelArrayList.get(position).gettrip_id());
 
 
         return convertView;
@@ -86,7 +88,7 @@ public class RetroAdapter2 extends BaseAdapter {
 
     private class ViewHolder {
 
-        protected TextView tvrequest_id, tvtime, tvorigin, tvdestination;
+        protected TextView tvrequest_id, tvtime, tvorigin, tvdestination, tvtrip_id;
         protected ImageView iv;
     }
 

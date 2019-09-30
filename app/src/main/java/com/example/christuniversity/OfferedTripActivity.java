@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +54,7 @@ public class OfferedTripActivity extends AppCompatActivity {
     private Session session;
     private HashMap<String, String> uid;
     private String tid,uid1,seats;
-    private TextView trip_id;
+    private TextView trip_id, tvrequest_id;
     private Toolbar toolbar;
     private ProgressDialog mProgress;
 
@@ -100,6 +102,20 @@ public class OfferedTripActivity extends AppCompatActivity {
 
                             @Override
                             public void onDismiss(ListViewAdapter view, int position) {
+
+                                View v = (View) listView.getChildAt(position);
+                                FrameLayout frameLayout = (FrameLayout) v;
+
+                                LinearLayout linearLayoutParent = (LinearLayout) frameLayout.getChildAt(0);
+
+                                // Getting the inner Linear Layout
+                                LinearLayout linearLayoutChild = (LinearLayout) linearLayoutParent.getChildAt(1);
+
+                                // Getting the Country TextView
+                                tvrequest_id = (TextView) linearLayoutChild.getChildAt(0);
+                                //Toast.makeText(RequestrideActivity.this, tvrequest_id.getText().toString(), Toast.LENGTH_SHORT).show();
+
+                                // Getting the Country TextView
 
                                 get_rider_trip(uid1);
                                 retroAdapter.remove(position);
@@ -196,9 +212,9 @@ public class OfferedTripActivity extends AppCompatActivity {
 
     }
 
-    private void get_rider_trip(final String user_id) {
+    private void get_rider_trip(final String trip_id) {
 
-        compositeDisposable.add(myAPI.get_rider_trip(user_id)
+        compositeDisposable.add(myAPI.get_rider_trip(trip_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
