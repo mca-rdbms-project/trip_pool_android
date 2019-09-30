@@ -117,7 +117,7 @@ public class OfferedTripActivity extends AppCompatActivity {
 
                                 // Getting the Country TextView
 
-                                get_rider_trip(uid1);
+                                get_rider_trip(tvrequest_id.getText().toString());
                                 retroAdapter.remove(position);
 
                             }

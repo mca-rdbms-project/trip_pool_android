@@ -163,12 +163,12 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
 
     private void senduserid(final String user_id) {
 
-        mProgress = new ProgressDialog(Homepage.this,
+        /*mProgress = new ProgressDialog(Homepage.this,
                 R.style.AppTheme_Dark_Dialog);
         mProgress.setIndeterminate(true);
         mProgress.setMessage("Searching for Passengers");
         mProgress.show();
-
+*/
         compositeDisposable.add(myAPI.senduserid(user_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -186,19 +186,19 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
 
     private void senduserid1(final String user_id) {
 
-        mProgress = new ProgressDialog(Homepage.this,
+        /*mProgress = new ProgressDialog(Homepage.this,
                 R.style.AppTheme_Dark_Dialog);
         mProgress.setIndeterminate(true);
         mProgress.setMessage("Searching for Booked Trips");
         mProgress.show();
-
+*/
         compositeDisposable.add(myAPI.senduserid1(user_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        mProgress.dismiss();
+                        //mProgress.dismiss();
                         //Toast.makeText(Homepage.this, "Your Registration is successful" + s, Toast.LENGTH_SHORT).show();
 
                     }
@@ -208,19 +208,19 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener{
 
     private void senduserid2(final String user_id) {
 
-        mProgress = new ProgressDialog(Homepage.this,
+        /*mProgress = new ProgressDialog(Homepage.this,
                 R.style.AppTheme_Dark_Dialog);
         mProgress.setIndeterminate(true);
         mProgress.setMessage("Searching for Posted Trips");
         mProgress.show();
-
+*/
         compositeDisposable.add(myAPI.senduserid2(user_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        mProgress.dismiss();
+                        //mProgress.dismiss();
                         //Toast.makeText(Homepage.this, "Your Registration is successful" + s, Toast.LENGTH_SHORT).show();
 
                     }
